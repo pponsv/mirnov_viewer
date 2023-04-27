@@ -1,4 +1,4 @@
-.phony: run build
+.PHONY : run build
 
 run:
 	python3 main.py
