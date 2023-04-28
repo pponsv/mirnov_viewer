@@ -1,7 +1,9 @@
 import TJII_data_acquisition as da
+from spectrograms_lib import custom_spect
 from multiprocessing import Pool
 import database
 from auxfiles.mirnov_names import COIL_NAMES
+
 
 
 class Mirnov_array:
@@ -13,13 +15,16 @@ class Mirnov_array:
         for coil in self.coils:
             coil.read_data(self.shot)
 
-    def read_multi(self):
+    def read_multi(self, printer=print):
         # database.read_multi(info.shot, self.coils)
+        def tmp_callback(result):
+            printer(f"{result.shot} {result.name} done")
+            return result
         pool = Pool(processes=5)
         res_async = []
         for coil in self.coils:
-            print(self.shot, coil.name, "init")
-            res_async.append(pool.apply_async(coil.read_data))
+            printer(f"{self.shot} {coil.name} init")
+            res_async.append(pool.apply_async(coil.read_data, callback=tmp_callback))
         pool.close()
         res = []
         for r in res_async:
@@ -59,28 +64,10 @@ class Mirnov_coil:
         ax.setLabels(title=self.name)
         axis = ax.getAxis("left")
         axis.setWidth(40)
-        # axis.setStyle(
-        #     tickTextOffset=10,
-        #     autoExpandTextSpace=True,
-        #     textFillLimits=[(-1e12, 1e12)],
-        # )
-        # axis.setTicks([(x, "%.2f" % x) for x,_ in axis.tickValues(None,None,axis.orthoRange)])
-        # print(axis.tickValues(None,None,axis.orthoRange))
 
-# def read_multi(coils):
-#     t0 = time()
-#     pool = Pool(processes=5)
-#     res_async = []
-#     for coil in coils:
-#         print(coil.shot, coil.name, "init")
-#         res_async.append(pool.apply_async(coil.read_data))
-#     pool.close()
-#     res = []
-#     for r in res_async:
-#         res.append(r.get())
-#     for r in res:
-#         for idx, o in enumerate(coils):
-#             if r.name == o.name:
-#                 coils[idx] = r
-#     pool.join()
-#     print(f"Time elapsed: {(time() - t0):.5f}s")
+    def spectrogram(self):
+        self.spec_freqs, self.spec_times, self.spec_vals, fnyq = custom_spect(self.t, self.x)
+
+    def plot_spec(self):
+        self.spectrogram()
+        

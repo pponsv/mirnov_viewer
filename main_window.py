@@ -65,10 +65,10 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
 
     def loadData(self):
         info_changed = self.refreshInfo()
-        if info_changed:
-            self.array = plotting.make_array(self.info)
-            self.array.read_multi()
-            self.statusbar.showMessage("Done")
+        # if info_changed:
+        self.array = plotting.make_array(self.info)
+        self.array.read_multi(printer=self.statusbar.showMessage)
+        self.statusbar.showMessage("Done")
         self.refresh()
 
     def refresh(self):
