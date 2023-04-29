@@ -64,6 +64,13 @@ def plot_array(layout, info, array):
         # plot_single(plots[(i, j)], array.coils[idx]x[::delta], y[::delta])
 
 
+def spectrograms_array(layout, info, array):
+    nx, ny = layout_size[len(array.coils)]
+    plots = make_plots(layout, nx, ny)
+    for idx, pltidx in enumerate(plots):
+        array.coils[idx].plot_spec(plots[pltidx], colormap=COLORMAP_JET)
+
+
 def plot_spgrams(layout):
     plots = make_plots(layout, 4, 8)
     for i, j in plots:

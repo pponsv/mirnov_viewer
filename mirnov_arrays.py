@@ -1,10 +1,10 @@
 import TJII_data_acquisition as da
 from spectrograms_lib import custom_spect
 from multiprocessing import Pool
-import database
+import pyqtgraph as pg
 from auxfiles.mirnov_names import COIL_NAMES
 
-
+import numpy as np
 
 class Mirnov_array:
     def __init__(self, shot, names):
@@ -42,22 +42,28 @@ class Mirnov_coil:
         self.shot = shot
         self.name = name
 
+    # def read_data(self):
+    #     t, x, ierr = da.py_lectur(self.shot, self.name)
+    #     if ierr == 0:
+    #         self.t = t
+    #         self.x = x
+    #     else:
+    #         print(f"Error {ierr}:")
+    #         da.py_ertxt(ierr)
+    #         self.t = [0]
+    #         self.x = [0]
+    #     print(self.shot, self.name, "done")
+    #     return self
+
     def read_data(self):
-        t, x, ierr = da.py_lectur(self.shot, self.name)
-        if ierr == 0:
-            self.t = t
-            self.x = x
-        else:
-            print(f"Error {ierr}:")
-            da.py_ertxt(ierr)
-            self.t = [0]
-            self.x = [0]
-        print(self.shot, self.name, "done")
+        self.t = np.linspace(0,100,100001)
+        self.x = np.sin(125*2*np.pi*self.t) + np.cos(215*2*np.pi*self.t)+(1-0.5*np.random.rand(len(self.t)))
         return self
 
     def plot(self, ax, ds, dsFactor, pen):
         ax.clear()
         if ds is True:
+            print(dsFactor)
             ax.plot(self.t[::dsFactor], self.x[::dsFactor], pen=pen)
         else:
             ax.plot(self.t, self.x, pen=pen)
@@ -68,6 +74,14 @@ class Mirnov_coil:
     def spectrogram(self):
         self.spec_freqs, self.spec_times, self.spec_vals, fnyq = custom_spect(self.t, self.x)
 
-    def plot_spec(self):
+    def plot_spec(self, ax, colormap):
         self.spectrogram()
+        x0, y0 = self.spec_times[0], self.spec_freqs[0]
+        w = self.spec_times[-1] - x0
+        h = self.spec_freqs[-1] - y0
+        img = pg.ImageItem(image=self.spec_vals.T, levels=(-40,0), 
+                           rect=[x0, y0, w, h ])
+        bar = pg.ColorBarItem((-40, 0), colorMap=colormap)
+        ax.addItem(img)
+        bar.setImageItem(img, insert_in=ax)
         

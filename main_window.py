@@ -16,9 +16,11 @@ class WindowInfo:
         self.orientation = window.coilOrientationSelector.currentText()
         try:
             self.shot = int(window.shotNumberInput.text())
-            self.downsampleFactor = int(window.downsampleFactorBox.text())
         except:
             self.shot = window.shotNumberInput.text()
+        try:
+            self.downsampleFactor = int(window.downsampleFactorBox.text())
+        except:
             self.downsampleFactor = None
         self.downsample = window.downsampleBox.isChecked()
         self.selectedCoil = window.coilDataRetrievalSelector.currentText()
@@ -53,6 +55,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.loadDataButton.clicked.connect(self.loadData)
         self.seeAloneButton.clicked.connect(self.seeAlone)
         self.saveButton.clicked.connect(self.savefig)
+        self.spectrogramsButton.clicked.connect(self.makeSpectrograms)
 
     def savefig(self):
         exporter = pg.exporters.ImageExporter(self.figLayout)
@@ -98,3 +101,6 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         else:
             self.coilSubarraySelector.setDisabled(True)
             self.coilOrientationSelector.setDisabled(True)
+
+    def makeSpectrograms(self):
+        plotting.spectrograms_array(self.figLayout, self.info, self.array)
