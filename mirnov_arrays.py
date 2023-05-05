@@ -1,5 +1,7 @@
 import TJII_data_acquisition as da
-from spectrograms_lib import custom_spect
+
+# from spectrograms_lib import custom_spect
+from scipy.signal import spectrogram
 from multiprocessing import Pool
 import pyqtgraph as pg
 from auxfiles.mirnov_names import COIL_NAMES
@@ -14,7 +16,7 @@ class Mirnov_array:
 
     def read_seq(self):
         for coil in self.coils:
-            coil.read_data(self.shot)
+            coil.read_data()
 
     def read_multi(self, printer=print):
         # database.read_multi(info.shot, self.coils)
@@ -76,9 +78,36 @@ class Mirnov_coil:
 
     def spectrogram(self):
         if (self.ierr == 0) and not hasattr(self, "spec_freqs"):
-            self.spec_freqs, self.spec_times, self.spec_vals, fnyq = custom_spect(
-                self.t, self.x, tlim=(self.t[[0, -1]])
+            dt = np.mean(np.diff(self.t))
+            self.spec_freqs, self.spec_times, sxx = spectrogram(
+                self.x,
+                fs=round(1 / dt),
+                window="hamming",
+                nperseg=512,
+                noverlap=500,
+                return_onesided=True,
             )
+            self.spec_vals = 10 * np.log10(sxx / sxx.max())
+            # print(self.spec_times[0])
+            self.spec_times += self.t[0]
+            # print(
+            #     self.t[-1],
+            #     self.t[-256],
+            #     self.t[-512],
+            #     self.spec_times[-1],
+            #     self.spec_times[-2],
+            # )
+            # print(
+            #     self.t[0],
+            #     self.t[128],
+            #     self.t[256],
+            #     self.t[512],
+            #     self.spec_times[0],
+            #     self.spec_times[1],
+            # )
+            # , fnyq = custom_spect(
+            #     self.t, self.x, tlim=(self.t[[0, -1]])
+            # )
             print(f"Spgram {self.name} done")
 
     def plot_spec(self, ax, colormap):
@@ -93,6 +122,6 @@ class Mirnov_coil:
             )
             bar = pg.ColorBarItem((-40, 0), colorMap=colormap)
             ax.addItem(img)
-            ax.setXRange(x0, x0+w)
-            ax.setYRange(y0, y0+h)
+            ax.setXRange(x0, x0 + w)
+            ax.setYRange(y0, y0 + h)
             bar.setImageItem(img, insert_in=ax)
