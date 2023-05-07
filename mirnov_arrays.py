@@ -1,4 +1,4 @@
-import TJII_data_acquisition as da
+from lib import TJII_data_acquisition as da
 
 # from spectrograms_lib import custom_spect
 from scipy.signal import spectrogram

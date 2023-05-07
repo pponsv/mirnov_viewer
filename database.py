@@ -1,13 +1,15 @@
 import time
-import TJII_data_acquisition as da
+from lib import TJII_data_acquisition as da
 from multiprocessing import Pool
+
 
 def getLastShot(window):
     shot, ierr = da.py_lastshot()
-    if ierr==0:
+    if ierr == 0:
         window.shotNumberInput.insert(f"{shot}")
     else:
-        window.statusbar.showMessage('Error reading last shot: {ierr}')
+        window.statusbar.showMessage("Error reading last shot: {ierr}")
+
 
 def read_multi(shot, coils):
     # t0 = time()
