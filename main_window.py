@@ -1,4 +1,4 @@
-import PyQt6 as qt
+import PyQt5 as qt
 import pyqtgraph as pg
 import pyqtgraph.exporters
 

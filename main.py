@@ -1,4 +1,4 @@
-from PyQt6 import QtWidgets
+from PyQt5 import QtWidgets
 from pyqtgraph import PlotWidget, plot
 import sys  # We need sys so that we can pass argv to QApplication
 from main_window import MainWindow
