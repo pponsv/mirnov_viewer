@@ -24,10 +24,11 @@ git checkout qt5
 
 #### Python:
 
-Install the requirements via:
+Install the requirements with `pur`:
 
 ```
-pip install -r requirements.txt
+pip install pur
+pur -r requirements.txt
 ```
 
 #### TJII library
