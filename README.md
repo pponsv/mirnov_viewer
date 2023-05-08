@@ -16,7 +16,7 @@ sudo apt install qt6-base-dev
 ```
 
 Older distributions do not provide this package.
-In this case, there's a qt5 branch that should work without installing anything.
+In that case, there's a qt5 branch that should work without installing anything.
 
 ```
 git checkout qt5
@@ -24,10 +24,11 @@ git checkout qt5
 
 #### Python:
 
-Install the requirements via:
+Install the requirements via `pur`:
 
 ```
-pip install -r requirements.txt
+pip install pur
+pur -r requirements.txt
 ```
 
 #### TJII library
