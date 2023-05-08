@@ -1,5 +1,5 @@
-numpy==1.21.5
-PyQt5==5.15.9
-PyQt5_sip==12.9.1
-pyqtgraph==0.13.3
-scipy==1.10.1
+numpy>=1.21.5
+PyQt5>=5.15.9
+PyQt5_sip>=12.9.1
+pyqtgraph>=0.13.3
+scipy>=1.10.1
