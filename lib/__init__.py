@@ -1,2 +1,1 @@
-import spectrograms_lib as spects
 import TJII_data_acquisition
