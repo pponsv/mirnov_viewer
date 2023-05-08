@@ -24,7 +24,7 @@ git checkout qt5
 
 #### Python:
 
-Install the requirements via `pur`:
+Install the requirements with `pur`:
 
 ```
 pip install pur
