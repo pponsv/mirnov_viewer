@@ -1,7 +1,7 @@
 import numpy as np
 import pyqtgraph as pg
 import mirnov_arrays as ma
-import TJII_data_acquisition as da
+from lib import TJII_data_acquisition as da
 
 layout_size = {32: (4, 8), 25: (5, 5), 24: (4, 6)}
 
