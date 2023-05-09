@@ -8,6 +8,11 @@ import plotting
 uiMainWindowFile = "./ui/windowLayout.ui"  # Enter file here.
 ui_MainWindow, QtBaseClass = qt.uic.loadUiType(uiMainWindowFile)
 
+locale = qt.QtCore.QLocale("en_US")
+doubleValidator = qt.QtGui.QDoubleValidator()
+doubleValidator.setLocale(locale)
+intValidator = qt.QtGui.QIntValidator()
+
 
 class WindowInfo:
     def __init__(self, window):
@@ -47,6 +52,9 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.graphwidget.setBackground("w")
         self.figLayout = pg.GraphicsLayout()
         self.graphwidget.setCentralItem(self.figLayout)
+        self.lowerTLim.setValidator(doubleValidator)
+        self.upperTLim.setValidator(doubleValidator)
+        self.shotNumberInput.setValidator(intValidator)
 
         # self.loadButton.clicked.connect(self.refreshInfo)
         self.refreshButton.clicked.connect(self.refresh)
@@ -56,6 +64,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.seeAloneButton.clicked.connect(self.seeAlone)
         self.saveButton.clicked.connect(self.savefig)
         self.spectrogramsButton.clicked.connect(self.makeSpectrograms)
+        self.fftButton.clicked.connect(self.makeFfts)
 
     def savefig(self):
         exporter = pg.exporters.ImageExporter(self.figLayout)
@@ -76,7 +85,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
 
     def refresh(self):
         self.refreshInfo()
-        plotting.plot_array(self.figLayout, self.info, self.array)
+        self.plots = plotting.plot_array(self.figLayout, self.info, self.array)
         self.coilDataRetrievalSelector.clear()
         self.coilDataRetrievalSelector.addItems(
             [coil.name for coil in self.array.coils]
@@ -103,4 +112,10 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
             self.coilOrientationSelector.setDisabled(True)
 
     def makeSpectrograms(self):
-        plotting.spectrograms_array(self.figLayout, self.info, self.array)
+        tlim = float(self.lowerTLim.text()), float(self.upperTLim.text())
+        plotting.spectrograms_array(self.figLayout, self.info, self.array, tlim=tlim)
+
+    def makeFfts(self):
+        self.refresh()
+        for key in self.plots:
+            self.plots[key].ctrl.fftCheck.setChecked(True)

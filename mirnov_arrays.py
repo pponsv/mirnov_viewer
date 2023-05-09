@@ -76,11 +76,12 @@ class Mirnov_coil:
         axis = ax.getAxis("left")
         axis.setWidth(40)
 
-    def spectrogram(self):
-        if (self.ierr == 0) and not hasattr(self, "spec_freqs"):
+    def spectrogram(self, tlim):
+        if self.ierr == 0:
             dt = np.mean(np.diff(self.t))
+            mask = (self.t > tlim[0]) & (self.t < tlim[1])
             self.spec_freqs, self.spec_times, sxx = spectrogram(
-                self.x,
+                self.x[mask],
                 fs=round(1 / dt),
                 window="hamming",
                 nperseg=512,
@@ -88,30 +89,11 @@ class Mirnov_coil:
                 return_onesided=True,
             )
             self.spec_vals = 10 * np.log10(sxx / sxx.max())
-            # print(self.spec_times[0])
-            self.spec_times += self.t[0]
-            # print(
-            #     self.t[-1],
-            #     self.t[-256],
-            #     self.t[-512],
-            #     self.spec_times[-1],
-            #     self.spec_times[-2],
-            # )
-            # print(
-            #     self.t[0],
-            #     self.t[128],
-            #     self.t[256],
-            #     self.t[512],
-            #     self.spec_times[0],
-            #     self.spec_times[1],
-            # )
-            # , fnyq = custom_spect(
-            #     self.t, self.x, tlim=(self.t[[0, -1]])
-            # )
+            self.spec_times += self.t[mask][0]
             print(f"Spgram {self.name} done")
 
-    def plot_spec(self, ax, colormap):
-        self.spectrogram()
+    def plot_spec(self, ax, colormap, tlim):
+        self.spectrogram(tlim)
         if hasattr(self, "spec_freqs"):
             x0, y0 = self.spec_times[0], self.spec_freqs[0]
             w = self.spec_times[-1] - x0
@@ -124,4 +106,5 @@ class Mirnov_coil:
             ax.addItem(img)
             ax.setXRange(x0, x0 + w)
             ax.setYRange(y0, y0 + h)
+            ax.setLabels(title=self.name)
             bar.setImageItem(img, insert_in=ax)

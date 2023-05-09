@@ -62,15 +62,16 @@ def plot_array(layout, info, array):
             dsFactor=info.downsampleFactor,
             pen=PEN_BLACK,
         )
-        # plots[pltidx].setLabels(title=array.coils_idx.)
-        # plot_single(plots[(i, j)], array.coils[idx]x[::delta], y[::delta])
+    return plots
+    # plots[pltidx].setLabels(title=array.coils_idx.)
+    # plot_single(plots[(i, j)], array.coils[idx]x[::delta], y[::delta])
 
 
-def spectrograms_array(layout, info, array):
+def spectrograms_array(layout, info, array, tlim):
     nx, ny = layout_size[len(array.coils)]
     plots = make_plots(layout, nx, ny, sharex=True, sharey=True)
     for idx, pltidx in enumerate(plots):
-        array.coils[idx].plot_spec(plots[pltidx], colormap=COLORMAP_JET)
+        array.coils[idx].plot_spec(plots[pltidx], colormap=COLORMAP_JET, tlim=tlim)
     # plots[(0, 0)].autoRange()
 
 

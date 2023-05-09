@@ -202,48 +202,97 @@
     <item row="2" column="0">
      <widget class="QWidget" name="bottomwidget" native="true">
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="1" column="5">
-        <widget class="QLabel" name="label_4">
+       <item row="1" column="0">
+        <widget class="QPushButton" name="integrateDataButton">
          <property name="text">
-          <string>Coil:</string>
+          <string>Integrate</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="7">
+       <item row="1" column="11">
         <widget class="QPushButton" name="seeAloneButton">
          <property name="text">
           <string>See alone</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="1" column="3">
         <widget class="QPushButton" name="spectrogramsButton">
          <property name="text">
           <string>Spectrograms</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="1" column="10">
+        <widget class="QComboBox" name="coilDataRetrievalSelector"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="fftButton">
+         <property name="text">
+          <string>FFT</string>
          </property>
-         <property name="sizeHint" stdset="0">
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QLineEdit" name="upperTLim">
+         <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>20</height>
+           <width>110</width>
+           <height>22</height>
           </size>
          </property>
-        </spacer>
-       </item>
-       <item row="1" column="3">
-        <widget class="QPushButton" name="saveButton">
+         <property name="maximumSize">
+          <size>
+           <width>110</width>
+           <height>22</height>
+          </size>
+         </property>
          <property name="text">
-          <string>Save</string>
+          <string>1250</string>
+         </property>
+         <property name="placeholderText">
+          <string>Upper limit [ms]</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item row="1" column="4">
+        <widget class="QLineEdit" name="lowerTLim">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>110</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>110</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>100</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>1050</string>
+         </property>
+         <property name="placeholderText">
+          <string>Lower limit [ms]</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="8">
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -256,15 +305,45 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="integrateDataButton">
+       <item row="1" column="6">
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="7">
+        <widget class="QPushButton" name="saveButton">
          <property name="text">
-          <string>Integrate</string>
+          <string>Save figure</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="6">
-        <widget class="QComboBox" name="coilDataRetrievalSelector"/>
+       <item row="1" column="9">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Coil:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
