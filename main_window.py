@@ -119,3 +119,5 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.refresh()
         for key in self.plots:
             self.plots[key].ctrl.fftCheck.setChecked(True)
+            self.plots[key].ctrl.logXCheck.setChecked(True)
+            self.plots[key].ctrl.logYCheck.setChecked(True)
