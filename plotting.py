@@ -52,6 +52,19 @@ def plot_coil(layout, info, array):
     plots[(0, 0)].autoRange()
 
 
+def plot_integrated_array(layout, info, array):
+    nx, ny = layout_size[len(array.coils)]
+    plots = make_plots(layout, nx, ny, sharex=True)
+    for idx, pltidx in enumerate(plots):
+        array.coils[idx].plot_integrated(
+            plots[pltidx],
+            ds=info.downsample,
+            dsFactor=info.downsampleFactor,
+            pen=PEN_BLACK,
+        )
+    return plots
+
+
 def plot_array(layout, info, array):
     nx, ny = layout_size[len(array.coils)]
     plots = make_plots(layout, nx, ny, sharex=True)

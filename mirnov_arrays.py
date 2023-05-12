@@ -2,6 +2,7 @@ from lib import TJII_data_acquisition as da
 
 # from spectrograms_lib import custom_spect
 from scipy.signal import spectrogram
+from scipy.integrate import cumulative_trapezoid
 from multiprocessing import Pool
 import pyqtgraph as pg
 from auxfiles.mirnov_names import COIL_NAMES
@@ -72,6 +73,17 @@ class Mirnov_coil:
             ax.plot(self.t[::dsFactor], self.x[::dsFactor], pen=pen)
         else:
             ax.plot(self.t, self.x, pen=pen)
+        ax.setLabels(title=self.name)
+        axis = ax.getAxis("left")
+        axis.setWidth(40)
+
+    def plot_integrated(self, ax, ds, dsFactor, pen):
+        ax.clear()
+        nx = cumulative_trapezoid(self.x, self.t, initial=0)
+        if ds is True:
+            ax.plot(self.t[::dsFactor], nx[::dsFactor], pen=pen)
+        else:
+            ax.plot(self.t, nx, pen=pen)
         ax.setLabels(title=self.name)
         axis = ax.getAxis("left")
         axis.setWidth(40)

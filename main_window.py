@@ -65,6 +65,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.saveButton.clicked.connect(self.savefig)
         self.spectrogramsButton.clicked.connect(self.makeSpectrograms)
         self.fftButton.clicked.connect(self.makeFfts)
+        self.integrateDataButton.clicked.connect(self.integrateData)
 
     def savefig(self):
         exporter = pg.exporters.ImageExporter(self.figLayout)
@@ -82,6 +83,11 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.array.read_multi(printer=self.statusbar.showMessage)
         self.statusbar.showMessage("Done")
         self.refresh()
+
+    def integrateData(self):
+        self.plots = plotting.plot_integrated_array(
+            self.figLayout, self.info, self.array
+        )
 
     def refresh(self):
         self.refreshInfo()
