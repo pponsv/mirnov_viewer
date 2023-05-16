@@ -5,7 +5,7 @@ from main_window import MainWindow
 
 
 def main():
-    app = QtWidgets.QApplication(sys.argv)
+    app = qt.QtWidgets.QApplication(sys.argv)
     main = MainWindow()
     main.show()
     sys.exit(app.exec())
