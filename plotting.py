@@ -3,7 +3,7 @@ import pyqtgraph as pg
 import mirnov_arrays as ma
 from lib import TJII_data_acquisition as da
 
-layout_size = {32: (4, 8), 25: (5, 5), 24: (4, 6), 16: (4, 4), 7: (3, 3), 20: (5, 5)}
+layout_size = {32: (4, 8), 25: (5, 5), 24: (4, 6), 16: (4, 4), 7: (3, 3), 20: (4, 5)}
 
 PEN_BLACK = pg.mkPen(color="#000000", width=1)
 COLORMAP_JET = pg.colormap.getFromMatplotlib("jet")
