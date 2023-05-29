@@ -1,6 +1,7 @@
 import PyQt6 as qt
 import pyqtgraph as pg
 import pyqtgraph.exporters
+from auxfiles.mirnov_names import COIL_NAMES
 
 # import database
 import plotting
@@ -48,6 +49,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.show()
 
         self.info = WindowInfo(self)
+        self.populate_boxes()
 
         self.graphwidget.setBackground("w")
         self.figLayout = pg.GraphicsLayout()
@@ -66,6 +68,9 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.spectrogramsButton.clicked.connect(self.makeSpectrograms)
         self.fftButton.clicked.connect(self.makeFfts)
         self.integrateDataButton.clicked.connect(self.integrateData)
+
+    def populate_boxes(self):
+        self.coilArraySelector.addItems(COIL_NAMES.keys())
 
     def savefig(self):
         exporter = pg.exporters.ImageExporter(self.figLayout)

@@ -119,23 +119,7 @@
         </widget>
        </item>
        <item row="0" column="9">
-        <widget class="QComboBox" name="coilArraySelector">
-         <item>
-          <property name="text">
-           <string>Helical</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Poloidal</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Straight</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="coilArraySelector"/>
        </item>
        <item row="0" column="5">
         <widget class="QCheckBox" name="downsampleBox">
