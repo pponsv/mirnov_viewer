@@ -321,7 +321,7 @@ COIL_NAMES = {
         "BO119",
         "BO120",
     ],
-    "Bolometry - S7 - 1": [
+    "Bolometry - S7 - 2": [
         "BO201",
         "BO202",
         "BO203",
@@ -343,7 +343,7 @@ COIL_NAMES = {
         "BO219",
         "BO220",
     ],
-    "Bolometry - S7 - 1": [
+    "Bolometry - S7 - 3": [
         "BO301",
         "BO302",
         "BO303",
