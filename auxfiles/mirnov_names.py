@@ -451,4 +451,5 @@ COIL_NAMES = {
         "FILD_CAM",
         "FILD_PMT",
     ],
+    "MIR5C": ["MIR5C"],
 }
