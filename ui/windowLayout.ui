@@ -24,132 +24,8 @@
     <item row="0" column="0">
      <widget class="QWidget" name="topwidget" native="true">
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="12">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Orientation: </string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="shotNumberInput">
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>16777215</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="15">
-        <widget class="QPushButton" name="refreshButton">
-         <property name="text">
-          <string>Refresh</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="10">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Subarray:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="11">
-        <widget class="QComboBox" name="coilSubarraySelector">
-         <property name="editable">
-          <bool>false</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string>Upper</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Lower</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QPushButton" name="lastShotButton">
-         <property name="text">
-          <string>Last shot</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="8">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Array: </string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="4">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="13">
-        <widget class="QComboBox" name="coilOrientationSelector">
-         <item>
-          <property name="text">
-           <string>T</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>P</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>R</string>
-          </property>
-         </item>
-        </widget>
-       </item>
        <item row="0" column="9">
-        <widget class="QComboBox" name="coilArraySelector"/>
-       </item>
-       <item row="0" column="5">
-        <widget class="QCheckBox" name="downsampleBox">
-         <property name="text">
-          <string>Downsample:</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="7">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="loadDataButton">
-         <property name="text">
-          <string>Load data</string>
-         </property>
-        </widget>
+        <widget class="QComboBox" name="signalArraySelector"/>
        </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label">
@@ -177,6 +53,80 @@
          </property>
          <property name="clearButtonEnabled">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QCheckBox" name="downsampleBox">
+         <property name="text">
+          <string>Downsample:</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="7">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="shotNumberInput">
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="lastShotButton">
+         <property name="text">
+          <string>Last shot</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="loadDataButton">
+         <property name="text">
+          <string>Load data</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="8">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Signals: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="11">
+        <widget class="QPushButton" name="refreshButton">
+         <property name="text">
+          <string>Refresh</string>
          </property>
         </widget>
        </item>
