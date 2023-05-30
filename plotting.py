@@ -46,6 +46,7 @@ def make_plots(layout, numx, numy, sharex=False, sharey=False):
                 plots[(i, j)].setXLink(plots[(0, 0)])
             if sharey is True:
                 plots[(i, j)].setYLink(plots[(0, 0)])
+            plots[(i, j)].enableAutoRange(enable=True)
     return plots
 
 
@@ -59,7 +60,7 @@ def plot_coil(layout, info, array: ma.Signal_array):
         dsFactor=info.downsampleFactor,
         pen=PEN_BLACK,
     )
-    plots[(0, 0)].autoRange()
+    # plots[(0, 0)].autoRange()
 
 
 def plot_integrated_array(layout, info, array: ma.Signal_array):
@@ -72,6 +73,7 @@ def plot_integrated_array(layout, info, array: ma.Signal_array):
             dsFactor=info.downsampleFactor,
             pen=PEN_BLACK,
         )
+    # plots[(0, 0)].autoRange()
     return plots
 
 
@@ -85,7 +87,7 @@ def plot_array(layout, info, array):
             dsFactor=info.downsampleFactor,
             pen=PEN_BLACK,
         )
-    plots[(0, 0)].autoRange()
+    # plots[(0, 0)].autoRange()
     return plots
     # plots[pltidx].setLabels(title=array.coils_idx.)
     # plot_single(plots[(i, j)], array.coils[idx]x[::delta], y[::delta])
