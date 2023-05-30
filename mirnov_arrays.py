@@ -1,23 +1,21 @@
-from lib import TJII_data_acquisition as da
+import numpy as np
+import pyqtgraph as pg
 
-# from spectrograms_lib import custom_spect
 from scipy.signal import spectrogram
 from scipy.integrate import cumulative_trapezoid
 from multiprocessing import Pool
-import pyqtgraph as pg
 from auxfiles.mirnov_names import COIL_NAMES
-
-import numpy as np
+from lib import TJII_data_acquisition as da
 
 
 class Signal_array:
     def __init__(self, shot, names):
         self.shot = shot
-        self.coils = [Signal(shot, name) for name in names]
+        self.signals = [Signal(shot, name) for name in names]
 
     def read_seq(self):
-        for coil in self.coils:
-            coil.read_data()
+        for signal in self.signals:
+            signal.read_data()
 
     def read_multi(self, printer=print):
         # database.read_multi(info.shot, self.coils)
@@ -27,7 +25,7 @@ class Signal_array:
 
         pool = Pool(processes=5)
         res_async = []
-        for coil in self.coils:
+        for coil in self.signals:
             printer(f"{self.shot} {coil.name} init")
             res_async.append(pool.apply_async(coil.read_data, callback=tmp_callback))
         pool.close()
@@ -35,9 +33,9 @@ class Signal_array:
         for r in res_async:
             res.append(r.get())
         for r in res:
-            for idx, o in enumerate(self.coils):
+            for idx, o in enumerate(self.signals):
                 if r.name == o.name:
-                    self.coils[idx] = r
+                    self.signals[idx] = r
         pool.join()
         # load_multi.read_multi(self.coils)
 

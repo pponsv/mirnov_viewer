@@ -28,7 +28,7 @@ def getLastShot(window):
         window.statusbar.showMessage("Error reading last shot: {ierr}")
 
 
-def make_array(info):
+def make_array(info) -> ma.Signal_array:
     if info.array == "Helical":
         names = ma.COIL_NAMES[info.array][info.subarray][info.orientation]
     else:
@@ -49,8 +49,8 @@ def make_plots(layout, numx, numy, sharex=False, sharey=False):
     return plots
 
 
-def plot_coil(layout, info, array):
-    coil = [co for co in array.coils if (co.name == info.selectedCoil)][0]
+def plot_coil(layout, info, array: ma.Signal_array):
+    coil = [co for co in array.signals if (co.name == info.selectedCoil)][0]
     print(coil.name)
     plots = make_plots(layout, 1, 1)
     coil.plot(
@@ -62,11 +62,11 @@ def plot_coil(layout, info, array):
     plots[(0, 0)].autoRange()
 
 
-def plot_integrated_array(layout, info, array):
-    nx, ny = layout_size[len(array.coils)]
+def plot_integrated_array(layout, info, array: ma.Signal_array):
+    nx, ny = layout_size[len(array.signals)]
     plots = make_plots(layout, nx, ny, sharex=True)
     for idx, pltidx in enumerate(plots):
-        array.coils[idx].plot_integrated(
+        array.signals[idx].plot_integrated(
             plots[pltidx],
             ds=info.downsample,
             dsFactor=info.downsampleFactor,
@@ -76,25 +76,26 @@ def plot_integrated_array(layout, info, array):
 
 
 def plot_array(layout, info, array):
-    nx, ny = layout_size[len(array.coils)]
+    nx, ny = layout_size[len(array.signals)]
     plots = make_plots(layout, nx, ny, sharex=True)
     for idx, pltidx in enumerate(plots):
-        array.coils[idx].plot(
+        array.signals[idx].plot(
             plots[pltidx],
             ds=info.downsample,
             dsFactor=info.downsampleFactor,
             pen=PEN_BLACK,
         )
+    plots[(0, 0)].autoRange()
     return plots
     # plots[pltidx].setLabels(title=array.coils_idx.)
     # plot_single(plots[(i, j)], array.coils[idx]x[::delta], y[::delta])
 
 
 def spectrograms_array(layout, info, array, tlim):
-    nx, ny = layout_size[len(array.coils)]
+    nx, ny = layout_size[len(array.signals)]
     plots = make_plots(layout, nx, ny, sharex=True, sharey=True)
     for idx, pltidx in enumerate(plots):
-        array.coils[idx].plot_spec(plots[pltidx], colormap=COLORMAP_JET, tlim=tlim)
+        array.signals[idx].plot_spec(plots[pltidx], colormap=COLORMAP_JET, tlim=tlim)
     # plots[(0, 0)].autoRange()
 
 
