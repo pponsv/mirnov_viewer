@@ -10,10 +10,10 @@ from auxfiles.mirnov_names import COIL_NAMES
 import numpy as np
 
 
-class Mirnov_array:
+class Signal_array:
     def __init__(self, shot, names):
         self.shot = shot
-        self.coils = [Mirnov_coil(shot, name) for name in names]
+        self.coils = [Signal(shot, name) for name in names]
 
     def read_seq(self):
         for coil in self.coils:
@@ -42,7 +42,7 @@ class Mirnov_array:
         # load_multi.read_multi(self.coils)
 
 
-class Mirnov_coil:
+class Signal:
     def __init__(self, shot, name):
         self.shot = shot
         self.name = name
