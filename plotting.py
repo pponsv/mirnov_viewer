@@ -29,10 +29,11 @@ def getLastShot(window):
 
 
 def make_array(info) -> ma.Signal_array:
-    if info.array == "Helical":
-        names = ma.COIL_NAMES[info.array][info.subarray][info.orientation]
-    else:
-        names = ma.COIL_NAMES[info.array]
+    # if info.array == "Helical":
+    #     names = ma.COIL_NAMES[info.array][info.subarray][info.orientation]
+    # else:
+    #     names = ma.COIL_NAMES[info.array]
+    names = ma.COIL_NAMES[info.array]
     return ma.Signal_array(info.shot, names)
 
 

@@ -15,9 +15,9 @@ intValidator = qt.QtGui.QIntValidator()
 
 class WindowInfo:
     def __init__(self, window):
-        self.array = window.coilArraySelector.currentText()
-        self.subarray = window.coilSubarraySelector.currentText()
-        self.orientation = window.coilOrientationSelector.currentText()
+        self.array = window.signalArraySelector.currentText()
+        # self.subarray = window.coilSubarraySelector.currentText()
+        # self.orientation = window.coilOrientationSelector.currentText()
         try:
             self.shot = int(window.shotNumberInput.text())
         except:
@@ -28,7 +28,8 @@ class WindowInfo:
             self.downsampleFactor = None
         self.downsample = window.downsampleBox.isChecked()
         self.selectedCoil = window.coilDataRetrievalSelector.currentText()
-        print(self.shot, self.array, self.subarray, self.orientation, self.downsample)
+        # print(self.shot, self.array, self.subarray, self.orientation, self.downsample)
+        print(self.shot, self.array, self.downsample)
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -58,7 +59,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
 
         # self.loadButton.clicked.connect(self.refreshInfo)
         self.refreshButton.clicked.connect(self.refresh)
-        self.coilArraySelector.currentIndexChanged.connect(self.comboboxLogic)
+        # self.signalArraySelector.currentIndexChanged.connect(self.comboboxLogic)
         self.lastShotButton.clicked.connect(lambda: plotting.getLastShot(self))
         self.loadDataButton.clicked.connect(self.loadData)
         self.seeAloneButton.clicked.connect(self.seeAlone)
@@ -68,7 +69,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.integrateDataButton.clicked.connect(self.integrateData)
 
     def populate_boxes(self):
-        self.coilArraySelector.addItems(COIL_NAMES.keys())
+        self.signalArraySelector.addItems(COIL_NAMES.keys())
 
     def savefig(self):
         exporter = pg.exporters.ImageExporter(self.figLayout)
@@ -112,13 +113,13 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
             self.statusbar.showMessage(f"Error: {e}")
         return None
 
-    def comboboxLogic(self):
-        if self.coilArraySelector.currentText() == "Helical":
-            self.coilOrientationSelector.setDisabled(False)
-            self.coilSubarraySelector.setDisabled(False)
-        else:
-            self.coilSubarraySelector.setDisabled(True)
-            self.coilOrientationSelector.setDisabled(True)
+    # def comboboxLogic(self):
+    #     if self.signalArraySelector.currentText() == "Helical":
+    #         self.coilOrientationSelector.setDisabled(False)
+    #         self.coilSubarraySelector.setDisabled(False)
+    #     else:
+    #         self.coilSubarraySelector.setDisabled(True)
+    #         self.coilOrientationSelector.setDisabled(True)
 
     def makeSpectrograms(self):
         tlim = float(self.lowerTLim.text()), float(self.upperTLim.text())
