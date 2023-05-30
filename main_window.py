@@ -1,9 +1,7 @@
 import PyQt6 as qt
 import pyqtgraph as pg
-import pyqtgraph.exporters
-from auxfiles.mirnov_names import COIL_NAMES
 
-# import database
+from auxfiles.mirnov_names import COIL_NAMES
 import plotting
 
 uiMainWindowFile = "./ui/windowLayout.ui"  # Enter file here.
@@ -99,7 +97,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.plots = plotting.plot_array(self.figLayout, self.info, self.array)
         self.coilDataRetrievalSelector.clear()
         self.coilDataRetrievalSelector.addItems(
-            [coil.name for coil in self.array.coils]
+            [coil.name for coil in self.array.signals]
         )
 
     def refreshInfo(self):
