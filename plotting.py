@@ -33,7 +33,7 @@ def make_array(info):
         names = ma.COIL_NAMES[info.array][info.subarray][info.orientation]
     else:
         names = ma.COIL_NAMES[info.array]
-    return ma.Mirnov_array(info.shot, names)
+    return ma.Signal_array(info.shot, names)
 
 
 def make_plots(layout, numx, numy, sharex=False, sharey=False):
