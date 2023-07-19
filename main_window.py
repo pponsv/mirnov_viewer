@@ -1,8 +1,10 @@
 import PyQt6 as qt
 import pyqtgraph as pg
+from pyqtgraph.exporters import ImageExporter
 
 from auxfiles.mirnov_names import COIL_NAMES
 import plotting
+import os
 
 uiMainWindowFile = "./ui/windowLayout.ui"  # Enter file here.
 ui_MainWindow, QtBaseClass = qt.uic.loadUiType(uiMainWindowFile)
@@ -72,7 +74,8 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.signalArraySelector.addItems(COIL_NAMES.keys())
 
     def savefig(self):
-        exporter = pg.exporters.ImageExporter(self.figLayout)
+        os.makedirs("./figs", exist_ok=True)
+        exporter = ImageExporter(self.figLayout)
         exporter.parameters()["width"] = 3000
         exporter.export("figs/tmp.png")
 
