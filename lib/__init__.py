@@ -1,1 +1,1 @@
-import TJII_data_acquisition
+from . import TJII_data_acquisition
