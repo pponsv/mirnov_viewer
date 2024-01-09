@@ -24,10 +24,37 @@
     <item row="0" column="0">
      <widget class="QWidget" name="topwidget" native="true">
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="9">
-        <widget class="QComboBox" name="signalArraySelector">
-         <property name="editable">
-          <bool>false</bool>
+       <item row="0" column="7">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="13">
+        <widget class="QPushButton" name="refreshButton">
+         <property name="text">
+          <string>Refresh</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="lastShotButton">
+         <property name="text">
+          <string>Last shot</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="10">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Signals: </string>
          </property>
         </widget>
        </item>
@@ -84,18 +111,15 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="5">
-        <widget class="QCheckBox" name="downsampleBox">
+       <item row="0" column="2">
+        <widget class="QPushButton" name="loadDataButton">
          <property name="text">
-          <string>Downsample:</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
+          <string>Load data</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="7">
-        <spacer name="horizontalSpacer_3">
+       <item row="0" column="4">
+        <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -117,29 +141,32 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="QPushButton" name="lastShotButton">
+       <item row="0" column="5">
+        <widget class="QCheckBox" name="downsampleBox">
          <property name="text">
-          <string>Last shot</string>
+          <string>Downsample:</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="loadDataButton">
-         <property name="text">
-          <string>Load data</string>
+       <item row="0" column="11">
+        <widget class="QComboBox" name="signalArraySelector">
+         <property name="editable">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
        <item row="0" column="8">
-        <widget class="QLabel" name="label_2">
+        <widget class="QPushButton" name="DAQButton">
          <property name="text">
-          <string>Signals: </string>
+          <string>Check DAQ</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="4">
-        <spacer name="horizontalSpacer">
+       <item row="0" column="9">
+        <spacer name="horizontalSpacer_6">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -150,13 +177,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="0" column="11">
-        <widget class="QPushButton" name="refreshButton">
-         <property name="text">
-          <string>Refresh</string>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>
