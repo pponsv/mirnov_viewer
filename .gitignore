@@ -2,7 +2,7 @@
 __pycache__/
 dist/
 build/
-env_*/
+env/
 figs/
 
 *.so
