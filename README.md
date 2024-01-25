@@ -8,8 +8,8 @@ Instructions for linux
 
 #### QT
 
-This program uses the QT library.
-With ubuntu based distributions, you can install it via:
+This program uses the QT6 library, and the PySide6 python bindings to it.
+In ubuntu based distributions, you can install it via:
 
 ```
 sudo apt install qt6-base-dev
@@ -24,21 +24,24 @@ git checkout qt5
 
 #### Python:
 
-Install the requirements via `pur`:
+Install the requirements using the provided 'Makefile' and 'requirements.txt'.
+This creates a virtual environment in 'env/' and installs all required packages.
 
 ```
-pip install pur
-pur -r requirements.txt
+make configure
 ```
 
 #### TJII library
 
 The python package to access the TJII library needs to be compiled with gfortran.
-The easiest way is using the provided makefile:
+The easiest way is using the provided makefile.
+This is done automatically in the previous step, but can be repeated if needed using:
 
 ```
 make build
 ```
+
+Note that this step requires numpy and does _not_ use the virtual environment that we just created.
 
 ## Running
 
