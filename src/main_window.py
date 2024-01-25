@@ -4,7 +4,6 @@ from PySide6 import QtGui, QtCore, QtWidgets
 from pyqtgraph import GraphicsLayout
 from pyqtgraph.exporters import ImageExporter
 
-from .ui_mainwindow import Ui_MainWindow
 from auxfiles.signal_names import SIGNAL_NAMES
 from . import plotting
 import os
@@ -16,105 +15,78 @@ doubleValidator.setLocale(locale)
 intValidator = QtGui.QIntValidator()
 
 
-class WindowInfo:
-    def __init__(self, window):
-        self.array = window.signalArraySelector.currentText()
-        # self.subarray = window.coilSubarraySelector.currentText()
-        # self.orientation = window.coilOrientationSelector.currentText()
-        try:
-            self.shot = int(window.shotNumberInput.text())
-        except:
-            self.shot = window.shotNumberInput.text()
-        try:
-            self.downsampleFactor = int(window.downsampleFactorBox.text())
-        except:
-            self.downsampleFactor = None
-        self.downsample = window.downsampleBox.isChecked()
-        self.selectedCoil = window.coilDataRetrievalSelector.currentText()
-        # print(self.shot, self.array, self.subarray, self.orientation, self.downsample)
-        print(self.shot, self.array, self.downsample)
-
-    def __eq__(self, other):
-        if isinstance(other, self.__class__):
-            return self.__dict__ == other.__dict__
-        else:
-            return False
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-
-class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self):
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self, Ui_MainWindow):
         super(MainWindow, self).__init__()
-        self.setupUi(self)
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
         self.show()
 
         self.info = WindowInfo(self)
         self.populate_boxes()
+        self.init_ui()
 
-        self.graphwidget.setBackground("w")
-        self.figLayout = GraphicsLayout()
-        self.graphwidget.setCentralItem(self.figLayout)
-        self.lowerTLim.setValidator(doubleValidator)
-        self.upperTLim.setValidator(doubleValidator)
-        self.shotNumberInput.setValidator(intValidator)
+    def init_ui(self):
+        self.ui.figLayout.setBackground("w")
+        self.ui.lowerTLim.setValidator(doubleValidator)
+        self.ui.upperTLim.setValidator(doubleValidator)
+        self.ui.shotNumberInput.setValidator(intValidator)
 
-        # self.loadButton.clicked.connect(self.refreshInfo)
-        self.refreshButton.clicked.connect(self.refresh)
+        # self.ui.loadButton.clicked.connect(self.ui.refreshInfo)
+        self.ui.refreshButton.clicked.connect(self.refresh)
         # self.signalArraySelector.currentIndexChanged.connect(self.comboboxLogic)
-        self.lastShotButton.clicked.connect(lambda: plotting.getLastShot(self))
-        self.loadDataButton.clicked.connect(self.loadData)
-        self.seeAloneButton.clicked.connect(self.seeAlone)
-        self.saveButton.clicked.connect(self.savefig)
-        self.spectrogramsButton.clicked.connect(self.makeSpectrograms)
-        self.fftButton.clicked.connect(self.makeFfts)
-        self.integrateDataButton.clicked.connect(self.integrateData)
+        self.ui.lastShotButton.clicked.connect(lambda: plotting.getLastShot(self))
+        self.ui.loadDataButton.clicked.connect(self.loadData)
+        self.ui.seeAloneButton.clicked.connect(self.seeAlone)
+        self.ui.saveButton.clicked.connect(self.savefig)
+        self.ui.spectrogramsButton.clicked.connect(self.makeSpectrograms)
+        self.ui.fftButton.clicked.connect(self.makeFfts)
+        self.ui.integrateDataButton.clicked.connect(self.integrateData)
 
     def populate_boxes(self):
-        self.signalArraySelector.addItems(SIGNAL_NAMES.keys())
+        self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
 
     def savefig(self):
         os.makedirs("./figs", exist_ok=True)
-        exporter = ImageExporter(self.figLayout)
+        exporter = ImageExporter(self.ui.figLayout)
         exporter.parameters()["width"] = 3000
         exporter.export("figs/tmp.png")
 
     def seeAlone(self):
         info_changed = self.refreshInfo()
-        plotting.plot_coil(self.figLayout, self.info, self.array)
+        plotting.plot_coil(self.ui.figLayout, self.info, self.array)
 
     def loadData(self):
         info_changed = self.refreshInfo()
         # if info_changed:
         self.array = plotting.make_array(self.info)
-        self.array.read_multi(printer=self.statusbar.showMessage)
-        self.statusbar.showMessage("Done")
+        self.array.read_multi(printer=self.ui.statusbar.showMessage)
+        self.ui.statusbar.showMessage("Done")
         self.refresh()
 
     def integrateData(self):
         self.plots = plotting.plot_integrated_array(
-            self.figLayout, self.info, self.array
+            self.ui.figLayout, self.info, self.array
         )
 
     def refresh(self):
         self.refreshInfo()
-        self.plots = plotting.plot_array(self.figLayout, self.info, self.array)
-        self.coilDataRetrievalSelector.clear()
-        self.coilDataRetrievalSelector.addItems(
+        self.plots = plotting.plot_array(self.ui.figLayout, self.info, self.array)
+        self.ui.coilDataRetrievalSelector.clear()
+        self.ui.coilDataRetrievalSelector.addItems(
             [coil.name for coil in self.array.signals]
         )
 
     def refreshInfo(self):
         try:
             info = WindowInfo(self)
-            self.statusbar.clearMessage()
+            self.ui.statusbar.clearMessage()
             equal = info != self.info
             self.info = info
             return equal
         except Exception as e:
             print(repr(e))
-            self.statusbar.showMessage(f"Error: {e}")
+            self.ui.statusbar.showMessage(f"Error: {e}")
         return None
 
     # def comboboxLogic(self):
@@ -126,8 +98,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     #         self.coilOrientationSelector.setDisabled(True)
 
     def makeSpectrograms(self):
-        tlim = float(self.lowerTLim.text()), float(self.upperTLim.text())
-        plotting.spectrograms_array(self.figLayout, self.info, self.array, tlim=tlim)
+        tlim = float(self.ui.lowerTLim.text()), float(self.ui.upperTLim.text())
+        plotting.spectrograms_array(self.ui.figLayout, self.info, self.array, tlim=tlim)
 
     def makeFfts(self):
         self.refresh()
@@ -135,3 +107,31 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.plots[key].ctrl.fftCheck.setChecked(True)
             self.plots[key].ctrl.logXCheck.setChecked(True)
             self.plots[key].ctrl.logYCheck.setChecked(True)
+
+
+class WindowInfo:
+    def __init__(self, window: MainWindow):
+        self.array = window.ui.signalArraySelector.currentText()
+        # self.subarray = window.coilSubarraySelector.currentText()
+        # self.orientation = window.coilOrientationSelector.currentText()
+        try:
+            self.shot = int(window.ui.shotNumberInput.text())
+        except:
+            self.shot = window.ui.shotNumberInput.text()
+        try:
+            self.downsampleFactor = int(window.ui.downsampleFactorBox.text())
+        except:
+            self.downsampleFactor = None
+        self.downsample = window.ui.downsampleBox.isChecked()
+        self.selectedCoil = window.ui.coilDataRetrievalSelector.currentText()
+        # print(self.shot, self.array, self.subarray, self.orientation, self.downsample)
+        print(self.shot, self.array, self.downsample)
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)

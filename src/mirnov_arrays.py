@@ -88,11 +88,11 @@ class Signal:
 
     def spectrogram(self, tlim):
         if self.ierr == 0:
-            dt = np.mean(np.diff(self.t))
+            dt = np.mean(np.diff(self.t)).item()
             mask = (self.t > tlim[0]) & (self.t < tlim[1])
             self.spec_freqs, self.spec_times, sxx = spectrogram(
                 self.x[mask],
-                fs=round(1 / dt),
+                fs=round(1.0 / dt),
                 window="hamming",
                 nperseg=512,
                 noverlap=500,
