@@ -4,7 +4,7 @@ import pyqtgraph as pg
 from scipy.signal import spectrogram
 from scipy.integrate import cumulative_trapezoid
 from multiprocessing import Pool
-from auxfiles.mirnov_names import COIL_NAMES
+from auxfiles.signal_names import SIGNAL_NAMES
 from lib import TJII_data_acquisition as da
 
 
@@ -112,9 +112,10 @@ class Signal:
             img = pg.ImageItem(
                 image=self.spec_vals.T, levels=(-40, 0), rect=[x0, y0, w, h]
             )
-            bar = pg.ColorBarItem((-40, 0), colorMap=colormap)
+            # bar = pg.ColorBarItem((-40, 0), colorMap=colormap)
             ax.addItem(img)
             ax.setXRange(x0, x0 + w)
             ax.setYRange(y0, y0 + h)
             ax.setLabels(title=self.name)
-            bar.setImageItem(img, insert_in=ax)
+            ax.addColorBar(img, colorMap=colormap, values=(-40, 0))
+            # bar.setImageItem(img, insert_in=ax)

@@ -1,4 +1,4 @@
-COIL_NAMES = {
+SIGNAL_NAMES = {
     "MIR5C": ["MIR5C"],
     "Mirnov - Helical - Upper - T": [
         "H1T01",

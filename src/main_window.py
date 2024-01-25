@@ -1,18 +1,19 @@
-import PyQt6 as qt
-import pyqtgraph as pg
+from PySide6 import QtGui, QtCore, QtWidgets
+
+# from PySide6.QtUiTools import QUiLoader
+from pyqtgraph import GraphicsLayout
 from pyqtgraph.exporters import ImageExporter
 
-from auxfiles.mirnov_names import COIL_NAMES
-import plotting
+from .ui_mainwindow import Ui_MainWindow
+from auxfiles.signal_names import SIGNAL_NAMES
+from . import plotting
 import os
 
-uiMainWindowFile = "./ui/windowLayout.ui"  # Enter file here.
-ui_MainWindow, QtBaseClass = qt.uic.loadUiType(uiMainWindowFile)
 
-locale = qt.QtCore.QLocale("en_US")
-doubleValidator = qt.QtGui.QDoubleValidator()
+locale = QtCore.QLocale("en_US")
+doubleValidator = QtGui.QDoubleValidator()
 doubleValidator.setLocale(locale)
-intValidator = qt.QtGui.QIntValidator()
+intValidator = QtGui.QIntValidator()
 
 
 class WindowInfo:
@@ -43,7 +44,7 @@ class WindowInfo:
         return not self.__eq__(other)
 
 
-class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
@@ -53,7 +54,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.populate_boxes()
 
         self.graphwidget.setBackground("w")
-        self.figLayout = pg.GraphicsLayout()
+        self.figLayout = GraphicsLayout()
         self.graphwidget.setCentralItem(self.figLayout)
         self.lowerTLim.setValidator(doubleValidator)
         self.upperTLim.setValidator(doubleValidator)
@@ -71,7 +72,7 @@ class MainWindow(qt.QtWidgets.QMainWindow, ui_MainWindow):
         self.integrateDataButton.clicked.connect(self.integrateData)
 
     def populate_boxes(self):
-        self.signalArraySelector.addItems(COIL_NAMES.keys())
+        self.signalArraySelector.addItems(SIGNAL_NAMES.keys())
 
     def savefig(self):
         os.makedirs("./figs", exist_ok=True)

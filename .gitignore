@@ -4,6 +4,7 @@ dist/
 build/
 env/
 figs/
+src/ui_mainwindow.py
 
 *.so
 run

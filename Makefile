@@ -12,6 +12,7 @@ configure:
 	test -d env || python3 -m venv ./env
 	. env/bin/activate; pip install pur
 	. env/bin/activate; pip install -r requirements.txt
+	. env/bin/activate; pyside6-uic ./ui/MainWindow.ui -o ./src/ui_mainwindow.py
 	$(MAKE) build
 
 clean:

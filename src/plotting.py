@@ -1,6 +1,6 @@
 import numpy as np
 import pyqtgraph as pg
-import mirnov_arrays as ma
+from . import mirnov_arrays as ma
 from lib import TJII_data_acquisition as da
 
 layout_size = {
@@ -16,7 +16,8 @@ layout_size = {
 }
 
 PEN_BLACK = pg.mkPen(color="#000000", width=1)
-COLORMAP_JET = pg.colormap.getFromMatplotlib("jet")
+COLORMAP = pg.colormap.getFromMatplotlib("jet")
+COLORMAP = pg.colormap.get("CET-R4")
 
 
 def getLastShot(window):
@@ -33,7 +34,7 @@ def make_array(info) -> ma.Signal_array:
     #     names = ma.COIL_NAMES[info.array][info.subarray][info.orientation]
     # else:
     #     names = ma.COIL_NAMES[info.array]
-    names = ma.COIL_NAMES[info.array]
+    names = ma.SIGNAL_NAMES[info.array]
     return ma.Signal_array(info.shot, names)
 
 
@@ -98,7 +99,7 @@ def spectrograms_array(layout, info, array, tlim):
     nx, ny = layout_size[len(array.signals)]
     plots = make_plots(layout, nx, ny, sharex=True, sharey=True)
     for idx, pltidx in enumerate(plots):
-        array.signals[idx].plot_spec(plots[pltidx], colormap=COLORMAP_JET, tlim=tlim)
+        array.signals[idx].plot_spec(plots[pltidx], colormap=COLORMAP, tlim=tlim)
     # plots[(0, 0)].autoRange()
 
 
