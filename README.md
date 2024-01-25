@@ -47,8 +47,6 @@ This is done automatically in the previous step, but can be repeated if needed u
 make build
 ```
 
-Note that this step requires numpy and does _not_ use the virtual environment that we just created.
-
 ## Running
 
 From the main folder, running

@@ -1,4 +1,4 @@
-.PHONY : run build
+.PHONY : run build configure rebuild_ui clean
 SHELL := /bin/bash
 
 run:
@@ -11,8 +11,11 @@ build:
 rebuild_ui: 
 	. env/bin/activate; pyside6-uic ./ui/MainWindow.ui -o ./src/ui_mainwindow.py
 
-configure: 
+env: 
 	test -d env || python3 -m venv ./env
+
+configure: 
+	$(MAKE) env
 	. env/bin/activate; pip install -r requirements.txt
 	$(MAKE) rebuild_ui
 	$(MAKE) build
