@@ -22,6 +22,12 @@ In that case, there's a qt5 branch that should work without installing anything.
 git checkout qt5
 ```
 
+It also requires libxcb-cursor0, that can be installed using:
+
+```
+sudo apt-get install libxcb-cursor0
+```
+
 #### Python:
 
 Install the requirements using the provided 'Makefile' and 'requirements.txt'.
