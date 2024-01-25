@@ -1,22 +1,22 @@
 .PHONY : run build configure rebuild_ui clean
-SHELL := /bin/bash
+ACTIVATE_VENV = . ./env/bin/activate
 
 run:
-	. env/bin/activate; python3 main.py
+	$(ACTIVATE_VENV); python3 main.py
 
 build: 
-	. env/bin/activate; $(MAKE) -C ./lib/TJII_data_acquisition
+	$(ACTIVATE_VENV); $(MAKE) -C ./lib/TJII_data_acquisition
 	mkdir -p ./figs/
 
 rebuild_ui: 
-	. env/bin/activate; pyside6-uic ./ui/MainWindow.ui -o ./src/ui_mainwindow.py
+	$(ACTIVATE_VENV); pyside6-uic ./ui/MainWindow.ui -o ./src/ui_mainwindow.py
 
 env: 
 	test -d env || python3 -m venv ./env
 
 configure: 
 	$(MAKE) env
-	. env/bin/activate; pip install -r requirements.txt
+	$(ACTIVATE_VENV); pip install -r requirements.txt
 	$(MAKE) rebuild_ui
 	$(MAKE) build
 
