@@ -16,4 +16,4 @@ configure:
 	$(MAKE) build
 
 clean:
-	rm -rf env/ .vscode/ __pycache__/
+	rm -rf env/ .vscode/ __pycache__/ src/ui_*.py
