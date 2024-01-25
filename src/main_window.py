@@ -18,24 +18,27 @@ intValidator = QtGui.QIntValidator()
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, Ui_MainWindow):
         super(MainWindow, self).__init__()
+        #   UI
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.show()
+        self.init_ui()
+        self.populate_boxes()
 
         self.info = WindowInfo(self)
-        self.populate_boxes()
-        self.init_ui()
+        self.show()
 
     def init_ui(self):
         self.ui.figLayout.setBackground("w")
         self.ui.lowerTLim.setValidator(doubleValidator)
         self.ui.upperTLim.setValidator(doubleValidator)
         self.ui.shotNumberInput.setValidator(intValidator)
-
+        self.ui.shotNumberInput.returnPressed.connect(self.loadData)
         # self.ui.loadButton.clicked.connect(self.ui.refreshInfo)
         self.ui.refreshButton.clicked.connect(self.refresh)
         # self.signalArraySelector.currentIndexChanged.connect(self.comboboxLogic)
-        self.ui.lastShotButton.clicked.connect(lambda: plotting.getLastShot(self))
+        self.ui.lastShotButton.clicked.connect(
+            lambda: plotting.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
+        )
         self.ui.loadDataButton.clicked.connect(self.loadData)
         self.ui.seeAloneButton.clicked.connect(self.seeAlone)
         self.ui.saveButton.clicked.connect(self.savefig)

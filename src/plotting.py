@@ -1,6 +1,8 @@
 import numpy as np
 import pyqtgraph as pg
 from . import mirnov_arrays as ma
+
+# from .main_window import MainWindow
 from lib import TJII_data_acquisition as da
 
 layout_size = {
@@ -20,20 +22,16 @@ COLORMAP = pg.colormap.getFromMatplotlib("jet")
 COLORMAP = pg.colormap.get("CET-R4")
 
 
-def getLastShot(window):
+def getLastShot(lineedit, statusbar):
     shot, ierr = da.py_lastshot()
     if ierr == 0:
-        window.shotNumberInput.clear()
-        window.shotNumberInput.insert(f"{shot}")
+        lineedit.clear()
+        lineedit.insert(f"{shot}")
     else:
-        window.statusbar.showMessage("Error reading last shot: {ierr}")
+        statusbar.showMessage("Error reading last shot: {ierr}")
 
 
 def make_array(info) -> ma.Signal_array:
-    # if info.array == "Helical":
-    #     names = ma.COIL_NAMES[info.array][info.subarray][info.orientation]
-    # else:
-    #     names = ma.COIL_NAMES[info.array]
     names = ma.SIGNAL_NAMES[info.array]
     return ma.Signal_array(info.shot, names)
 

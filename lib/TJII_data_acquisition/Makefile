@@ -3,7 +3,6 @@ MODNAME = TJII_data_acquisition_f
 ACTIVATE_VENV = . ../../env/bin/activate
 
 all: $(MAIN)
-	$(ACTIVATE_VENV); which python3
 	$(ACTIVATE_VENV); python3 -m numpy.f2py -c --f90flags='-Wno-tabs -lRpcC' -L./lib/ -m $(MODNAME) $(MAIN) ./lib/libRpcC.a
 
 pyc: $(MAIN)
