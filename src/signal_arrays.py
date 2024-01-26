@@ -11,7 +11,7 @@ from .qt_workers import Worker
 from .window_info import WindowInfo
 
 
-class Signal_array:
+class SignalArray:
     def __init__(
         self,
         shot,

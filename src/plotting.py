@@ -1,6 +1,6 @@
 import numpy as np
 import pyqtgraph as pg
-from . import mirnov_arrays as ma
+from . import signal_arrays as ma
 
 # from .main_window import MainWindow
 from lib import TJII_data_acquisition as da
@@ -45,7 +45,7 @@ def make_plots(layout, numx, numy, sharex=False, sharey=False):
     return plots
 
 
-def plot_coil(layout, info, array: ma.Signal_array):
+def plot_coil(layout, info, array: ma.SignalArray):
     coil = [co for co in array.signals if (co.name == info.selectedCoil)][0]
     print(coil.name)
     plots = make_plots(layout, 1, 1)
@@ -58,7 +58,7 @@ def plot_coil(layout, info, array: ma.Signal_array):
     # plots[(0, 0)].autoRange()
 
 
-def plot_integrated_array(layout, info, array: ma.Signal_array):
+def plot_integrated_array(layout, info, array: ma.SignalArray):
     nx, ny = layout_size[len(array.signals)]
     plots = make_plots(layout, nx, ny, sharex=True)
     for idx, pltidx in enumerate(plots):

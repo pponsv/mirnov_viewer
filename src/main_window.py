@@ -7,7 +7,7 @@ from pyqtgraph.exporters import ImageExporter
 from auxfiles.signal_names import SIGNAL_NAMES
 from .qt_workers import Worker
 from . import plotting
-from . import mirnov_arrays
+from . import signal_arrays
 from .ui_mainwindow import Ui_MainWindow
 from .window_info import WindowInfo
 import os
@@ -71,7 +71,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if hasattr(self, "array"):
             if self.array.info == self.info:
                 return
-        self.array = mirnov_arrays.Signal_array(
+        self.array = signal_arrays.SignalArray(
             shot=self.info.shot,
             names=SIGNAL_NAMES[self.info.array],
             fig=self.ui.figLayout,
