@@ -5,7 +5,11 @@ from pyqtgraph import GraphicsLayout
 from pyqtgraph.exporters import ImageExporter
 
 from auxfiles.signal_names import SIGNAL_NAMES
+from .qt_workers import Worker
 from . import plotting
+from . import mirnov_arrays
+from .ui_mainwindow import Ui_MainWindow
+from .window_info import WindowInfo
 import os
 
 
@@ -16,7 +20,7 @@ intValidator = QtGui.QIntValidator()
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, Ui_MainWindow):
+    def __init__(self):
         super(MainWindow, self).__init__()
         #   UI
         self.ui = Ui_MainWindow()
@@ -24,7 +28,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.init_ui()
         self.populate_boxes()
 
-        self.info = WindowInfo(self)
+        #   Threading
+        self.threadpool = QtCore.QThreadPool()
+        self.threadpool.setMaxThreadCount(5)
+
+        self.info = WindowInfo(self.ui)
         self.show()
 
     def init_ui(self):
@@ -33,9 +41,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.upperTLim.setValidator(doubleValidator)
         self.ui.shotNumberInput.setValidator(intValidator)
         self.ui.shotNumberInput.returnPressed.connect(self.loadData)
-        # self.ui.loadButton.clicked.connect(self.ui.refreshInfo)
         self.ui.refreshButton.clicked.connect(self.refresh)
-        # self.signalArraySelector.currentIndexChanged.connect(self.comboboxLogic)
         self.ui.lastShotButton.clicked.connect(
             lambda: plotting.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
         )
@@ -48,6 +54,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def populate_boxes(self):
         self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
+        plotting.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
 
     def savefig(self):
         os.makedirs("./figs", exist_ok=True)
@@ -59,12 +66,22 @@ class MainWindow(QtWidgets.QMainWindow):
         info_changed = self.refreshInfo()
         plotting.plot_coil(self.ui.figLayout, self.info, self.array)
 
-    def loadData(self):
+    def make_array(self):
         info_changed = self.refreshInfo()
-        # if info_changed:
-        self.array = plotting.make_array(self.info)
-        self.array.read_multi(printer=self.ui.statusbar.showMessage)
-        self.ui.statusbar.showMessage("Done")
+        if hasattr(self, "array"):
+            if self.array.info == self.info:
+                return
+        self.array = mirnov_arrays.Signal_array(
+            shot=self.info.shot,
+            names=SIGNAL_NAMES[self.info.array],
+            fig=self.ui.figLayout,
+            threadpool=self.threadpool,
+            info=self.info,
+        )
+
+    def loadData(self):
+        self.make_array()
+        self.array.read_parallel(printer=self.ui.statusbar.showMessage)
         self.refresh()
 
     def integrateData(self):
@@ -82,7 +99,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def refreshInfo(self):
         try:
-            info = WindowInfo(self)
+            info = WindowInfo(self.ui)
             self.ui.statusbar.clearMessage()
             equal = info != self.info
             self.info = info
@@ -92,17 +109,30 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.statusbar.showMessage(f"Error: {e}")
         return None
 
-    # def comboboxLogic(self):
-    #     if self.signalArraySelector.currentText() == "Helical":
-    #         self.coilOrientationSelector.setDisabled(False)
-    #         self.coilSubarraySelector.setDisabled(False)
-    #     else:
-    #         self.coilSubarraySelector.setDisabled(True)
-    #         self.coilOrientationSelector.setDisabled(True)
-
     def makeSpectrograms(self):
         tlim = float(self.ui.lowerTLim.text()), float(self.ui.upperTLim.text())
-        plotting.spectrograms_array(self.ui.figLayout, self.info, self.array, tlim=tlim)
+        nx, ny = plotting.layout_size[len(self.array.signals)]
+        plots = plotting.make_plots(self.ui.figLayout, nx, ny, sharex=True, sharey=True)
+        print(plots)
+        workers = []
+        for idx, pltidx in enumerate(plots):
+            # print(idx, pltidx, plots[pltidx])
+            workers.append(
+                Worker(
+                    self.array.signals[idx].spectrogram,
+                    tlim=tlim,
+                )
+            )
+            self.threadpool.start(workers[-1])
+        workers[-1].signaler.finished.connect(
+            lambda: [
+                sig.plot_spec(plots[pltidx], plotting.COLORMAP, tlim)
+                for sig in self.array.signals
+            ]
+        )
+        self.ui.statusbar.showMessage("Done")
+        # array.signals[idx].plot_spec(plots[pltidx], colormap=COLORMAP, tlim=tlim)
+        # plotting.spectrograms_array(self.ui.figLayout, self.info, self.array, tlim=tlim)
 
     def makeFfts(self):
         self.refresh()
@@ -110,31 +140,3 @@ class MainWindow(QtWidgets.QMainWindow):
             self.plots[key].ctrl.fftCheck.setChecked(True)
             self.plots[key].ctrl.logXCheck.setChecked(True)
             self.plots[key].ctrl.logYCheck.setChecked(True)
-
-
-class WindowInfo:
-    def __init__(self, window: MainWindow):
-        self.array = window.ui.signalArraySelector.currentText()
-        # self.subarray = window.coilSubarraySelector.currentText()
-        # self.orientation = window.coilOrientationSelector.currentText()
-        try:
-            self.shot = int(window.ui.shotNumberInput.text())
-        except:
-            self.shot = window.ui.shotNumberInput.text()
-        try:
-            self.downsampleFactor = int(window.ui.downsampleFactorBox.text())
-        except:
-            self.downsampleFactor = None
-        self.downsample = window.ui.downsampleBox.isChecked()
-        self.selectedCoil = window.ui.coilDataRetrievalSelector.currentText()
-        # print(self.shot, self.array, self.subarray, self.orientation, self.downsample)
-        print(self.shot, self.array, self.downsample)
-
-    def __eq__(self, other):
-        if isinstance(other, self.__class__):
-            return self.__dict__ == other.__dict__
-        else:
-            return False
-
-    def __ne__(self, other):
-        return not self.__eq__(other)

@@ -1,43 +1,42 @@
-import numpy as np
+from PySide6 import QtGui, QtCore, QtWidgets
 import pyqtgraph as pg
 
+import numpy as np
 from scipy.signal import spectrogram
 from scipy.integrate import cumulative_trapezoid
-from multiprocessing import Pool
 from auxfiles.signal_names import SIGNAL_NAMES
 from lib import TJII_data_acquisition as da
 
+from .qt_workers import Worker
+from .window_info import WindowInfo
+
 
 class Signal_array:
-    def __init__(self, shot, names):
+    def __init__(
+        self,
+        shot,
+        names,
+        fig: pg.GraphicsLayoutWidget,
+        threadpool: QtCore.QThreadPool,
+        info: WindowInfo,
+    ):
         self.shot = shot
         self.signals = [Signal(shot, name) for name in names]
+        self.fig = fig
+        self.threadpool = threadpool
+        self.info = info
 
     def read_seq(self):
         for signal in self.signals:
             signal.read_data()
 
-    def read_multi(self, printer=print):
-        # database.read_multi(info.shot, self.coils)
-        def tmp_callback(result):
-            printer(f"{result.shot} {result.name} done")
-            return result
-
-        pool = Pool(processes=5)
-        res_async = []
-        for coil in self.signals:
-            printer(f"{self.shot} {coil.name} init")
-            res_async.append(pool.apply_async(coil.read_data, callback=tmp_callback))
-        pool.close()
-        res = []
-        for r in res_async:
-            res.append(r.get())
-        for r in res:
-            for idx, o in enumerate(self.signals):
-                if r.name == o.name:
-                    self.signals[idx] = r
-        pool.join()
-        # load_multi.read_multi(self.coils)
+    def read_parallel(self, printer):
+        workers = []
+        for signal in self.signals:
+            workers.append(Worker(signal.read_data, printer))
+            self.threadpool.start(workers[-1])
+        # workers[-1].signaler.finished.connect(self.refresh)
+        printer("Done")
 
 
 class Signal:
@@ -45,20 +44,21 @@ class Signal:
         self.shot = shot
         self.name = name
 
-    def read_data(self):
+    def read_data(self, printer=print):
         t, x, ierr = da.py_lectur(self.shot, self.name)
         if ierr == 0:
             self.t = t
             self.x = x
-            self.ierr = ierr
         else:
-            print(f"Error {ierr}:", end="")
-            da.py_ertxt(ierr)
+            print(f"{self.shot} {self.name} - Error {ierr}:")
+            # da.py_ertxt(ierr)
             self.t = [0]
             self.x = [0]
-            self.ierr = ierr
-        print(self.shot, self.name, "done")
-        return self
+        self.ierr = ierr
+        printer(f"{self.shot} {self.name} - Done")
+        if printer is not print:
+            print(f"{self.shot} {self.name} - Done")
+        return self.shot, self.name
 
     # def read_data(self):
     #     self.t = np.linspace(0,100,100001)
@@ -103,6 +103,7 @@ class Signal:
             print(f"Spgram {self.name} done")
 
     def plot_spec(self, ax, colormap, tlim):
+        print(ax)
         self.spectrogram(tlim)
         if hasattr(self, "spec_freqs"):
             x0, y0 = self.spec_times[0], self.spec_freqs[0]

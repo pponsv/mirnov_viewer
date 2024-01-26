@@ -6,7 +6,6 @@ run:
 
 build: 
 	$(ACTIVATE_VENV); $(MAKE) -C ./lib/TJII_data_acquisition
-	mkdir -p ./figs/
 
 rebuild_ui: 
 	$(ACTIVATE_VENV); pyside6-uic ./ui/MainWindow.ui -o ./src/ui_mainwindow.py

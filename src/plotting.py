@@ -31,11 +31,6 @@ def getLastShot(lineedit, statusbar):
         statusbar.showMessage("Error reading last shot: {ierr}")
 
 
-def make_array(info) -> ma.Signal_array:
-    names = ma.SIGNAL_NAMES[info.array]
-    return ma.Signal_array(info.shot, names)
-
-
 def make_plots(layout, numx, numy, sharex=False, sharey=False):
     layout.clear()
     plots = {}
