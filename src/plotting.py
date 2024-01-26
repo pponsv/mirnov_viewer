@@ -1,21 +1,12 @@
 import numpy as np
 import pyqtgraph as pg
-from . import signal_arrays as ma
+
+# from . import signal_arrays as sa
+from auxfiles.signal_names import LAYOUT_SIZE
 
 # from .main_window import MainWindow
 from lib import TJII_data_acquisition as da
 
-layout_size = {
-    1: (1, 1),
-    7: (3, 3),
-    5: (1, 5),
-    10: (2, 5),
-    16: (4, 4),
-    20: (4, 5),
-    24: (4, 6),
-    25: (5, 5),
-    32: (4, 8),
-}
 
 PEN_BLACK = pg.mkPen(color="#000000", width=1)
 COLORMAP = pg.colormap.getFromMatplotlib("jet")
@@ -31,69 +22,69 @@ def getLastShot(lineedit, statusbar):
         statusbar.showMessage("Error reading last shot: {ierr}")
 
 
-def make_plots(layout, numx, numy, sharex=False, sharey=False):
-    layout.clear()
-    plots = {}
-    for i in range(numy):
-        for j in range(numx):
-            plots[(i, j)] = layout.addPlot(i, j)
-            if sharex is True:
-                plots[(i, j)].setXLink(plots[(0, 0)])
-            if sharey is True:
-                plots[(i, j)].setYLink(plots[(0, 0)])
-            plots[(i, j)].enableAutoRange(enable=True)
-    return plots
+# def make_plots(layout, numx, numy, sharex=False, sharey=False):
+#     layout.clear()
+#     plots = {}
+#     for i in range(numy):
+#         for j in range(numx):
+#             plots[(i, j)] = layout.addPlot(i, j)
+#             if sharex is True:
+#                 plots[(i, j)].setXLink(plots[(0, 0)])
+#             if sharey is True:
+#                 plots[(i, j)].setYLink(plots[(0, 0)])
+#             plots[(i, j)].enableAutoRange(enable=True)
+#     return plots
 
 
-def plot_coil(layout, info, array: ma.SignalArray):
-    coil = [co for co in array.signals if (co.name == info.selectedCoil)][0]
-    print(coil.name)
-    plots = make_plots(layout, 1, 1)
-    coil.plot(
-        ax=plots[(0, 0)],
-        ds=info.downsample,
-        dsFactor=info.downsampleFactor,
-        pen=PEN_BLACK,
-    )
-    # plots[(0, 0)].autoRange()
+# def plot_coil(layout, info, array: sa.SignalArray):
+#     coil = [co for co in array.signals if (co.name == info.selectedCoil)][0]
+#     print(coil.name)
+#     plots = make_plots(layout, 1, 1)
+#     coil.plot(
+#         ax=plots[(0, 0)],
+#         ds=info.downsample,
+#         dsFactor=info.downsampleFactor,
+#         pen=PEN_BLACK,
+#     )
+# plots[(0, 0)].autoRange()
 
 
-def plot_integrated_array(layout, info, array: ma.SignalArray):
-    nx, ny = layout_size[len(array.signals)]
-    plots = make_plots(layout, nx, ny, sharex=True)
-    for idx, pltidx in enumerate(plots):
-        array.signals[idx].plot_integrated(
-            plots[pltidx],
-            ds=info.downsample,
-            dsFactor=info.downsampleFactor,
-            pen=PEN_BLACK,
-        )
-    # plots[(0, 0)].autoRange()
-    return plots
+# def plot_integrated_array(layout, info, array: sa.SignalArray):
+#     nx, ny = LAYOUT_SIZE[len(array.signals)]
+#     plots = make_plots(layout, nx, ny, sharex=True)
+#     for idx, pltidx in enumerate(plots):
+#         array.signals[idx].plot_integrated(
+#             plots[pltidx],
+#             ds=info.downsample,
+#             dsFactor=info.downsampleFactor,
+#             pen=PEN_BLACK,
+#         )
+#     # plots[(0, 0)].autoRange()
+#     return plots
 
 
-def plot_array(layout, info, array):
-    nx, ny = layout_size[len(array.signals)]
-    plots = make_plots(layout, nx, ny, sharex=True)
-    for idx, pltidx in enumerate(plots):
-        array.signals[idx].plot(
-            plots[pltidx],
-            ds=info.downsample,
-            dsFactor=info.downsampleFactor,
-            pen=PEN_BLACK,
-        )
-    # plots[(0, 0)].autoRange()
-    return plots
-    # plots[pltidx].setLabels(title=array.coils_idx.)
-    # plot_single(plots[(i, j)], array.coils[idx]x[::delta], y[::delta])
+# def plot_array(layout, info, array):
+#     nx, ny = LAYOUT_SIZE[len(array.signals)]
+#     plots = make_plots(layout, nx, ny, sharex=True)
+#     for idx, pltidx in enumerate(plots):
+#         array.signals[idx].plot(
+#             plots[pltidx],
+#             ds=info.downsample,
+#             dsFactor=info.downsampleFactor,
+#             pen=PEN_BLACK,
+#         )
+#     # plots[(0, 0)].autoRange()
+#     return plots
+# plots[pltidx].setLabels(title=array.coils_idx.)
+# plot_single(plots[(i, j)], array.coils[idx]x[::delta], y[::delta])
 
 
-def spectrograms_array(layout, info, array, tlim):
-    nx, ny = layout_size[len(array.signals)]
-    plots = make_plots(layout, nx, ny, sharex=True, sharey=True)
-    for idx, pltidx in enumerate(plots):
-        array.signals[idx].plot_spec(plots[pltidx], colormap=COLORMAP, tlim=tlim)
-    # plots[(0, 0)].autoRange()
+# def spectrograms_array(layout, info, array, tlim):
+#     nx, ny = LAYOUT_SIZE[len(array.signals)]
+#     plots = make_plots(layout, nx, ny, sharex=True, sharey=True)
+#     for idx, pltidx in enumerate(plots):
+#         array.signals[idx].plot_spec(plots[pltidx], colormap=COLORMAP, tlim=tlim)
+# plots[(0, 0)].autoRange()
 
 
 # def plot_spgrams(layout):

@@ -1,7 +1,6 @@
 from PySide6 import QtGui, QtCore, QtWidgets
 
-# from PySide6.QtUiTools import QUiLoader
-from pyqtgraph import GraphicsLayout
+from pyqtgraph import GraphicsLayoutWidget
 from pyqtgraph.exporters import ImageExporter
 
 from auxfiles.signal_names import SIGNAL_NAMES
@@ -63,13 +62,14 @@ class MainWindow(QtWidgets.QMainWindow):
         exporter.export("figs/tmp.png")
 
     def seeAlone(self):
-        info_changed = self.refreshInfo()
-        plotting.plot_coil(self.ui.figLayout, self.info, self.array)
+        info_changed = self.info.refresh()
+        self.array.plot_alone(self.info.selectedCoil)
+        # plotting.plot_coil(self.ui.figLayout, self.info, self.array)
 
     def make_array(self):
-        info_changed = self.refreshInfo()
+        self.info.refresh()
         if hasattr(self, "array"):
-            if self.array.info == self.info:
+            if self.info.has_changed is False:
                 return
         self.array = signal_arrays.SignalArray(
             shot=self.info.shot,
@@ -85,58 +85,27 @@ class MainWindow(QtWidgets.QMainWindow):
         self.refresh()
 
     def integrateData(self):
-        self.plots = plotting.plot_integrated_array(
-            self.ui.figLayout, self.info, self.array
-        )
+        self.array.plot_integrated()
 
     def refresh(self):
-        self.refreshInfo()
-        self.plots = plotting.plot_array(self.ui.figLayout, self.info, self.array)
+        self.info.refresh()
+        self.array.plot_signals()
         self.ui.coilDataRetrievalSelector.clear()
         self.ui.coilDataRetrievalSelector.addItems(
-            [coil.name for coil in self.array.signals]
+            [sig_name for sig_name in self.array.signals]
         )
-
-    def refreshInfo(self):
-        try:
-            info = WindowInfo(self.ui)
-            self.ui.statusbar.clearMessage()
-            equal = info != self.info
-            self.info = info
-            return equal
-        except Exception as e:
-            print(repr(e))
-            self.ui.statusbar.showMessage(f"Error: {e}")
-        return None
 
     def makeSpectrograms(self):
         tlim = float(self.ui.lowerTLim.text()), float(self.ui.upperTLim.text())
-        nx, ny = plotting.layout_size[len(self.array.signals)]
-        plots = plotting.make_plots(self.ui.figLayout, nx, ny, sharex=True, sharey=True)
-        print(plots)
-        workers = []
-        for idx, pltidx in enumerate(plots):
-            # print(idx, pltidx, plots[pltidx])
-            workers.append(
-                Worker(
-                    self.array.signals[idx].spectrogram,
-                    tlim=tlim,
-                )
-            )
-            self.threadpool.start(workers[-1])
-        workers[-1].signaler.finished.connect(
-            lambda: [
-                sig.plot_spec(plots[pltidx], plotting.COLORMAP, tlim)
-                for sig in self.array.signals
-            ]
-        )
+        self.array.make_spectrograms(tlim=tlim, printer=self.ui.statusbar.showMessage)
+        self.array.plot_spectrograms(tlim=tlim)
         self.ui.statusbar.showMessage("Done")
         # array.signals[idx].plot_spec(plots[pltidx], colormap=COLORMAP, tlim=tlim)
         # plotting.spectrograms_array(self.ui.figLayout, self.info, self.array, tlim=tlim)
 
     def makeFfts(self):
         self.refresh()
-        for key in self.plots:
-            self.plots[key].ctrl.fftCheck.setChecked(True)
-            self.plots[key].ctrl.logXCheck.setChecked(True)
-            self.plots[key].ctrl.logYCheck.setChecked(True)
+        for key in self.array.ax:
+            self.array.ax[key].ctrl.fftCheck.setChecked(True)
+            self.array.ax[key].ctrl.logXCheck.setChecked(True)
+            self.array.ax[key].ctrl.logYCheck.setChecked(True)

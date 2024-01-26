@@ -14,13 +14,11 @@ class Worker(QtCore.QRunnable):
         try:
             result = self.fun(*self.args, **self.kwargs)
             self.signaler.result.emit(result)
-            print("Done")
         except Exception as e:
             self.signaler.error.emit((e,))
             print("Errored", e)
         finally:
             self.signaler.finished.emit()
-            print("Finished")
 
 
 class WorkerSignals(QtCore.QObject):
