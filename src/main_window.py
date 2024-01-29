@@ -56,6 +56,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.fftButton.clicked.connect(self.makeFfts)
         self.ui.integrateDataButton.clicked.connect(self.integrateData)
         self.ui.DAQButton.clicked.connect(self.showDAQ)
+        self.ui.singleSpectrogramButton.clicked.connect(self.specAlone)
 
     def showDAQ(self):
         self.daq_dialog.close()
@@ -70,12 +71,17 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def savefig(self):
         os.makedirs("./figs", exist_ok=True)
-        exporter = ImageExporter(self.ui.figLayout)
+        exporter = ImageExporter(self.ui.figLayout.scene())
         exporter.parameters()["width"] = 3000
         exporter.export("figs/tmp.png")
 
+    def specAlone(self):
+        self.info.refresh()
+        tlim = float(self.ui.lowerTLim.text()), float(self.ui.upperTLim.text())
+        self.array.plot_spec_alone(self.info.selectedCoil, tlim)
+
     def seeAlone(self):
-        info_changed = self.info.refresh()
+        self.info.refresh()
         self.array.plot_alone(self.info.selectedCoil)
         # plotting.plot_coil(self.ui.figLayout, self.info, self.array)
 

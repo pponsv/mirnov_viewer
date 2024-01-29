@@ -51,8 +51,8 @@ class SignalArray:
                 self.ax[(i, j)].setDefaultPadding(0.0)
                 self.ax[(i, j)].enableAutoRange(enable=True)
                 self.ax[(i, j)].getAxis("left").setWidth(40)
-                self.ax[(i, j)].getAxis("right").setWidth(0)
-                self.ax[(i, j)].getAxis("bottom").setHeight(15)
+                self.ax[(i, j)].getAxis("right").setWidth(40)
+                self.ax[(i, j)].getAxis("bottom").setHeight(20)
                 self.ax[(i, j)].getAxis("top").setHeight(0)
 
     def make_spectrograms(self, tlim, printer=print):
@@ -69,6 +69,12 @@ class SignalArray:
         self.make_axes(self.signals, sharex=True, sharey=True)
         for sig_key, iax in zip(self.signals, self.ax):
             self.signals[sig_key].plot_spec(self.ax[iax], COLORMAP, tlim)
+
+    def plot_spec_alone(self, name, tlim):
+        print(name)
+        self.make_axes({name: self.signals[name]})
+        self.signals[name].spectrogram(tlim)
+        self.signals[name].plot_spec(self.ax[(0, 0)], COLORMAP, tlim)
 
     def plot_signals(self):
         self.make_axes(self.signals, sharex=True, sharey=False)
