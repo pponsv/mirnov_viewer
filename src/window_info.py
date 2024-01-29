@@ -1,4 +1,4 @@
-from .ui_mainwindow import Ui_MainWindow
+from .ui.ui_mainwindow import Ui_MainWindow
 
 
 class WindowInfo:
@@ -30,8 +30,8 @@ class WindowInfo:
             self.downsampleFactor = None
         self.downsample = self.UI_CLASS.downsampleBox.isChecked()
         self.selectedCoil = self.UI_CLASS.coilDataRetrievalSelector.currentText()
-        # print(self.shot, self.array, self.subarray, self.orientation, self.downsample)
-        print(self.shot, self.array, self.downsample)
-
         self.has_changed = not (self.__dict__ == old_info)
-        print("INFO CHANGED", self.has_changed)
+
+        # print(self.shot, self.array, self.downsample)
+
+        # print("INFO CHANGED", self.has_changed)

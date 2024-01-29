@@ -5,9 +5,9 @@ from pyqtgraph.exporters import ImageExporter
 
 from auxfiles.signal_names import SIGNAL_NAMES
 from .qt_workers import Worker
-from . import plotting
-from . import signal_arrays
-from .ui_mainwindow import Ui_MainWindow
+from . import utils
+from . import class_signal_arrays
+from .ui.ui_mainwindow import Ui_MainWindow
 from .window_info import WindowInfo
 import os
 
@@ -42,7 +42,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.shotNumberInput.returnPressed.connect(self.loadData)
         self.ui.refreshButton.clicked.connect(self.refresh)
         self.ui.lastShotButton.clicked.connect(
-            lambda: plotting.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
+            lambda: utils.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
         )
         self.ui.loadDataButton.clicked.connect(self.loadData)
         self.ui.seeAloneButton.clicked.connect(self.seeAlone)
@@ -53,7 +53,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def populate_boxes(self):
         self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
-        plotting.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
+        utils.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
 
     def savefig(self):
         os.makedirs("./figs", exist_ok=True)
@@ -71,7 +71,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if hasattr(self, "array"):
             if self.info.has_changed is False:
                 return
-        self.array = signal_arrays.SignalArray(
+        self.array = class_signal_arrays.SignalArray(
             shot=self.info.shot,
             names=SIGNAL_NAMES[self.info.array],
             fig=self.ui.figLayout,

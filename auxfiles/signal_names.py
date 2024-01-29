@@ -1,7 +1,7 @@
 LAYOUT_SIZE = {
     1: (1, 1),
     7: (3, 3),
-    # 5: (1, 5),
+    5: (1, 5),
     10: (2, 5),
     16: (4, 4),
     20: (4, 5),
@@ -11,6 +11,18 @@ LAYOUT_SIZE = {
 }
 
 SIGNAL_NAMES = {
+    "Diagnostics": [
+        "IACCEL1",
+        "Ip_b4_",
+        "IACCEL2",
+        "W_b4_corr_",
+        "GR",
+        "DENCM0_",
+        "GR2",
+        "Densidad2_",
+        "ECE10",
+        "ABOL8",
+    ],
     "MIR5C": ["MIR5C"],
     "Mirnov - Helical - Upper - T": [
         "H1T01",
@@ -293,18 +305,6 @@ SIGNAL_NAMES = {
         "HX1I",
         "HX2I",
         "VFI",
-    ],
-    "Diagnostics": [
-        "IACCEL1",
-        "Ip_b4_",
-        "IACCEL2",
-        "W_b4_corr_",
-        "GR",
-        "DENCM0_",
-        "GR2",
-        "Densidad2_",
-        "ECE10",
-        "ABOL8",
     ],
     "Bolometry - A": [
         "ABOL1",
