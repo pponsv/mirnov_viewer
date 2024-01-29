@@ -4,6 +4,7 @@ from pyqtgraph import GraphicsLayoutWidget
 from pyqtgraph.exporters import ImageExporter
 
 from auxfiles.signal_names import SIGNAL_NAMES
+from .daq_window import DAQ_dialog
 from .qt_workers import Worker
 from . import utils
 from . import class_signal_arrays
@@ -50,6 +51,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.spectrogramsButton.clicked.connect(self.makeSpectrograms)
         self.ui.fftButton.clicked.connect(self.makeFfts)
         self.ui.integrateDataButton.clicked.connect(self.integrateData)
+        self.ui.DAQButton.clicked.connect(self.showDAQ)
+
+    def showDAQ(self):
+        info_changed = self.info.refresh()
+        names = SIGNAL_NAMES[self.info.array]
+        shot = self.info.shot
+        self.daq_dialog = DAQ_dialog(shot, names)
 
     def populate_boxes(self):
         self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
