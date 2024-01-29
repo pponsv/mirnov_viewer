@@ -51,7 +51,7 @@ class SignalArray:
                 self.ax[(i, j)].setDefaultPadding(0.0)
                 self.ax[(i, j)].enableAutoRange(enable=True)
                 self.ax[(i, j)].getAxis("left").setWidth(40)
-                self.ax[(i, j)].getAxis("right").setWidth(40)
+                self.ax[(i, j)].getAxis("right").setWidth(0)
                 self.ax[(i, j)].getAxis("bottom").setHeight(20)
                 self.ax[(i, j)].getAxis("top").setHeight(0)
 

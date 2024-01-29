@@ -88,8 +88,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def make_array(self):
         self.info.refresh()
         if hasattr(self, "array"):
-            if self.info.has_changed is False:
-                return
+            if self.info.shot == self.array.shot:
+                if SIGNAL_NAMES[self.info.array] == [sig for sig in self.array.signals]:
+                    return
         self.array = class_signal_arrays.SignalArray(
             shot=self.info.shot,
             names=SIGNAL_NAMES[self.info.array],

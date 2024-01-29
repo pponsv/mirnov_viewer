@@ -22,7 +22,7 @@ configure:
 	$(MAKE) build
 
 clean:
-	rm -rf .vscode/ __pycache__/ src/ui/
+	rm -rf .vscode/ __pycache__/ src/ui/ figs/
 	$(MAKE) -C ./lib/TJII_data_acquisition clean
 
 remove_env:
