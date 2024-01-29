@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDialog, QGridLayout, QListWidget,
-    QListWidgetItem, QPushButton, QSizePolicy, QSpacerItem,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QDialog, QGridLayout, QHeaderView,
+    QPushButton, QSizePolicy, QSpacerItem, QTableWidget,
+    QTableWidgetItem, QWidget)
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -44,10 +44,10 @@ class Ui_Dialog(object):
 
         self.gridLayout.addItem(self.horizontalSpacer, 1, 0, 1, 1)
 
-        self.daqListWidget = QListWidget(self.widget)
-        self.daqListWidget.setObjectName(u"daqListWidget")
+        self.daqTableWidget = QTableWidget(self.widget)
+        self.daqTableWidget.setObjectName(u"daqTableWidget")
 
-        self.gridLayout.addWidget(self.daqListWidget, 0, 0, 1, 2)
+        self.gridLayout.addWidget(self.daqTableWidget, 0, 0, 1, 2)
 
 
         self.retranslateUi(Dialog)

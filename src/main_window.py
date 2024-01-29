@@ -32,7 +32,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.threadpool = QtCore.QThreadPool()
         self.threadpool.setMaxThreadCount(5)
 
+        #   Window info
         self.info = WindowInfo(self.ui)
+
+        #   DAQ dialog
+        self.daq_dialog = QtWidgets.QDialog()
         self.show()
 
     def init_ui(self):
@@ -54,6 +58,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.DAQButton.clicked.connect(self.showDAQ)
 
     def showDAQ(self):
+        self.daq_dialog.close()
         info_changed = self.info.refresh()
         names = SIGNAL_NAMES[self.info.array]
         shot = self.info.shot
