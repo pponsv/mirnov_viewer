@@ -14,7 +14,6 @@ class DAQ_dialog(QtWidgets.QDialog):
         self.ui.daqTableWidget.setHorizontalHeaderLabels(
             ["SHOT", "SIGNAL", "NDAT", "IERR"]
         )
-        # self.ui.daqTableWidget.setEditTriggers(QtWidgets.QTableWidgetItem.setFlags)
 
         self.ui.okButton.clicked.connect(self.close)
 

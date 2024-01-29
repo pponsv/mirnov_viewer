@@ -22,7 +22,7 @@ def py_lectur(shot: int, sig: str):
 def py_lectc(shot: int, sig: str):
     ndat, nvent, ierr = tf.f_dimens(shot, sig)
     x, y, ierr = tf.f_lectc(shot, sig, ndat, nvent)
-    return x.astype(np.float64), y.astype(np.int), ierr
+    return x.astype(np.float64), y.astype(np.int64), ierr
 
 
 def py_dimens(shot: int, sig: str):
@@ -53,8 +53,12 @@ def py_fecha(shot: int):
 
 def py_getq(shot: int, signal: str):
     idx, ierr = tf.f_getq(shot, signal)
-    keys = {0: 'Sin clasificar', 1: 'Datos validados',
-            2: 'No usar', 3: 'Usar con reservas'}
+    keys = {
+        0: "Sin clasificar",
+        1: "Datos validados",
+        2: "No usar",
+        3: "Usar con reservas",
+    }
     return idx, keys, ierr
 
 
@@ -65,7 +69,7 @@ def py_nums(shot: int):
 
 def py_listas(shot: int):
     ns, ierr = tf.f_nums(shot)
-    if ierr==0:
+    if ierr == 0:
         lista, ierr = tf.f_listas(shot, ns)
         return _dcd(lista), ierr
     return ierr
@@ -102,4 +106,4 @@ def py_shotlist(fecha: datetime.datetime):
 def _dcd(lista):
     # ~ lista = np.asarray(lista).flatten()
     # return [''.join([a.decode('UTF-8') for a in i]) for i in lista]
-    return [a.decode('UTF-8') for a in lista]
+    return [a.decode("UTF-8") for a in lista]
