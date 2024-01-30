@@ -13,10 +13,6 @@ from .class_window_info import WindowInfo
 import os
 
 
-# locale = QtCore.QLocale("en_US")
-# doubleValidator = QtGui.QDoubleValidator()
-# doubleValidator.setLocale(locale)
-# intValidator = QtGui.QIntValidator()
 DOUBLE_VALIDATOR = QtGui.QRegularExpressionValidator(
     "^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$"
 )
@@ -44,7 +40,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show()
 
     def init_ui(self):
+        #   Figure Widget
         self.ui.figLayout.setBackground("w")
+
         #   Validators
         self.ui.lowerTLim.setValidator(DOUBLE_VALIDATOR)
         self.ui.upperTLim.setValidator(DOUBLE_VALIDATOR)
@@ -57,7 +55,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #   Connections
         self.ui.shotNumberInput.returnPressed.connect(self.loadData)
-        self.ui.refreshButton.clicked.connect(self.refresh)
+        self.ui.refreshButton.clicked.connect(self.refresh_plots)
         self.ui.lastShotButton.clicked.connect(
             lambda: utils.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
         )
@@ -67,16 +65,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.fftButton.clicked.connect(self.makeFfts)
         self.ui.integrateDataButton.clicked.connect(self.integrateData)
         self.ui.singleSpectrogramButton.clicked.connect(self.specAlone)
+
         #   Menu bar
         self.ui.actionCheck_DAQ.triggered.connect(self.showDAQ)
         self.ui.actionSave_figure.triggered.connect(self.savefig)
 
     def showDAQ(self):
         self.daq_dialog.close()
-        info_changed = self.info.refresh()
-        names = SIGNAL_NAMES[self.info.array]
-        shot = self.info.shot
-        self.daq_dialog = DAQ_dialog(shot, names)
+        self.info.refresh()
+        self.daq_dialog = DAQ_dialog(self.info.shot, SIGNAL_NAMES[self.info.array])
 
     def populate_boxes(self):
         self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
@@ -113,12 +110,12 @@ class MainWindow(QtWidgets.QMainWindow):
     def loadData(self):
         self.make_array()
         self.array.read_parallel(printer=self.ui.statusbar.showMessage)
-        self.refresh()
+        self.refresh_plots()
 
     def integrateData(self):
         self.array.plot_integrated()
 
-    def refresh(self):
+    def refresh_plots(self):
         self.info.refresh()
         self.array.plot_signals()
         self.ui.coilDataRetrievalSelector.clear()
@@ -133,7 +130,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.statusbar.showMessage("Done")
 
     def makeFfts(self):
-        self.refresh()
+        self.refresh_plots()
         for key in self.array.ax:
             self.array.ax[key].ctrl.fftCheck.setChecked(True)
             self.array.ax[key].ctrl.logXCheck.setChecked(True)
