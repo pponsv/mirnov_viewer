@@ -16,7 +16,11 @@ import os
 locale = QtCore.QLocale("en_US")
 doubleValidator = QtGui.QDoubleValidator()
 doubleValidator.setLocale(locale)
-intValidator = QtGui.QIntValidator()
+# intValidator = QtGui.QIntValidator()
+doubleValidator = QtGui.QRegularExpressionValidator(
+    "^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$"
+)
+intValidator = QtGui.QRegularExpressionValidator("[1-9][0-9]*")
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -41,9 +45,17 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def init_ui(self):
         self.ui.figLayout.setBackground("w")
+        #   Validators
         self.ui.lowerTLim.setValidator(doubleValidator)
         self.ui.upperTLim.setValidator(doubleValidator)
+        self.ui.filterFMax.setValidator(doubleValidator)
+        self.ui.filterFMin.setValidator(doubleValidator)
         self.ui.shotNumberInput.setValidator(intValidator)
+        self.ui.spgramNperseg.setValidator(intValidator)
+        self.ui.spgramNoverlap.setValidator(intValidator)
+        self.ui.downsampleFactorBox.setValidator(intValidator)
+
+        #   Connections
         self.ui.shotNumberInput.returnPressed.connect(self.loadData)
         self.ui.refreshButton.clicked.connect(self.refresh)
         self.ui.lastShotButton.clicked.connect(
