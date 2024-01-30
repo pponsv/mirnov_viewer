@@ -70,14 +70,14 @@ class SignalArray:
     def plot_spectrograms(self):
         self.make_axes(self.signals, sharex=True, sharey=True)
         for sig_key, iax in zip(self.signals, self.ax):
-            self.signals[sig_key].plot_spec(self.ax[iax], COLORMAP, self.info.tlim)
+            self.signals[sig_key].plot_spec(self.ax[iax], COLORMAP)
 
     def plot_spec_alone(self, name):
         self.make_axes({name: self.signals[name]})
         self.signals[name].spectrogram(
             self.info.tlim, nperseg=self.info.nperseg, noverlap=self.info.noverlap
         )
-        self.signals[name].plot_spec(self.ax[(0, 0)], COLORMAP, self.info.tlim)
+        self.signals[name].plot_spec(self.ax[(0, 0)], COLORMAP)
 
     def plot_signals(self):
         self.make_axes(self.signals, sharex=True, sharey=False)
@@ -86,6 +86,8 @@ class SignalArray:
                 self.ax[pltidx],
                 ds=self.info.downsample,
                 dsFactor=self.info.downsampleFactor,
+                filt=self.info.filt,
+                flim=self.info.flim,
                 pen=PEN_BLACK,
             )
 
@@ -105,5 +107,7 @@ class SignalArray:
             ax=self.ax[(0, 0)],
             ds=self.info.downsample,
             dsFactor=self.info.downsampleFactor,
+            filt=self.info.filt,
+            flim=self.info.flim,
             pen=PEN_BLACK,
         )

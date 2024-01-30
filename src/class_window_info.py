@@ -32,7 +32,17 @@ class WindowInfo:
         self.downsample = self.ui.downsampleBox.isChecked()
         self.selectedCoil = self.ui.coilDataRetrievalSelector.currentText()
         self.has_changed = not (self.__dict__ == old_info)
+        self.filter_info()
         self.spgram_info()
+
+    def filter_info(self):
+        self.filt = self.ui.filterCheckbox.isChecked()
+        try:
+            self.flim = float(self.ui.filterFMin.text()), float(
+                self.ui.filterFMax.text()
+            )
+        except:
+            self.flim = None
 
     def spgram_info(self):
         try:

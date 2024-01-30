@@ -22,6 +22,17 @@ def getLastShot(lineedit, statusbar):
         statusbar.showMessage("Error reading last shot: {ierr}")
 
 
+def bandpass_filter_vec(vec, flim, dt=0.001):
+    if flim is None:
+        return vec
+    ff = np.fft.fft(vec)
+    fr = np.fft.fftfreq(len(vec), dt)
+    mask = (np.abs(fr) <= flim[1]) & (np.abs(fr) >= flim[0])
+    ff -= ff * (~mask)
+    nsig = np.fft.ifft(ff, len(vec))
+    return nsig.real
+
+
 # def make_plots(layout, numx, numy, sharex=False, sharey=False):
 #     layout.clear()
 #     plots = {}

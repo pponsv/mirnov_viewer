@@ -5,6 +5,7 @@ import numpy as np
 import pyqtgraph as pg
 from scipy.integrate import cumulative_trapezoid
 from scipy.signal import spectrogram
+from .utils import bandpass_filter_vec, PEN_BLACK, COLORMAP
 
 
 class Signal:
@@ -17,26 +18,33 @@ class Signal:
         if ierr == 0:
             self.t = t
             self.x = x
+            self.dt = t[1] - t[0]
         else:
             print(f"{self.shot} {self.name} - Error {ierr}:")
             # da.py_ertxt(ierr)
             self.t = [0]
             self.x = [0]
+            self.dt = 1
         self.ierr = ierr
         printer(f"{self.shot} {self.name} - Done")
         if printer is not print:
             print(f"{self.shot} {self.name} - Done")
         return self.shot, self.name
 
-    def plot(self, ax, ds, dsFactor, pen):
+    def plot(self, ax, ds, dsFactor, filt, flim, pen=PEN_BLACK):
         ax.clear()
         ax.setLabels(left=self.name)
         if self.ierr != 0:
             return
-        if ds is True:
-            ax.plot(self.t[::dsFactor], self.x[::dsFactor], pen=pen)
+        t = self.t
+        if filt is True:
+            x = self.filter(flim)
         else:
-            ax.plot(self.t, self.x, pen=pen)
+            x = self.x
+        if ds is True:
+            ax.plot(t[::dsFactor], x[::dsFactor], pen=pen)
+        else:
+            ax.plot(t, x, pen=pen)
 
     def plot_integrated(self, ax, ds, dsFactor, pen):
         ax.clear()
@@ -66,7 +74,7 @@ class Signal:
         self.spec_times += self.t[mask][0]
         print(f"Spgram {self.name} done - {tlim} - {nperseg} - {noverlap}")
 
-    def plot_spec(self, ax, colormap, tlim):
+    def plot_spec(self, ax, colormap):
         ax.clear()
         ax.setLabels(left=self.name)
         if self.ierr != 0:
@@ -84,3 +92,6 @@ class Signal:
             ax.setYRange(y0, y0 + h)
             cbar = ax.addColorBar(img, colorMap=colormap, values=(-40, 0), width=0.25)
             cbar.getAxis("right").setWidth(25)
+
+    def filter(self, flim):
+        return bandpass_filter_vec(self.x, flim, self.dt)
