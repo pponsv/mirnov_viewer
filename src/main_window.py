@@ -9,7 +9,7 @@ from .qt_workers import Worker
 from . import utils
 from . import class_signal_arrays
 from .ui.ui_mainwindow import Ui_MainWindow
-from .window_info import WindowInfo
+from .class_window_info import WindowInfo
 import os
 
 
@@ -51,12 +51,13 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         self.ui.loadDataButton.clicked.connect(self.loadData)
         self.ui.seeAloneButton.clicked.connect(self.seeAlone)
-        self.ui.saveButton.clicked.connect(self.savefig)
         self.ui.spectrogramsButton.clicked.connect(self.makeSpectrograms)
         self.ui.fftButton.clicked.connect(self.makeFfts)
         self.ui.integrateDataButton.clicked.connect(self.integrateData)
-        self.ui.DAQButton.clicked.connect(self.showDAQ)
         self.ui.singleSpectrogramButton.clicked.connect(self.specAlone)
+        #   Menu bar
+        self.ui.actionCheck_DAQ.triggered.connect(self.showDAQ)
+        self.ui.actionSave_figure.triggered.connect(self.savefig)
 
     def showDAQ(self):
         self.daq_dialog.close()
@@ -77,13 +78,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def specAlone(self):
         self.info.refresh()
-        tlim = float(self.ui.lowerTLim.text()), float(self.ui.upperTLim.text())
-        self.array.plot_spec_alone(self.info.selectedCoil, tlim)
+        self.array.plot_spec_alone(self.info.selectedCoil)
 
     def seeAlone(self):
         self.info.refresh()
         self.array.plot_alone(self.info.selectedCoil)
-        # plotting.plot_coil(self.ui.figLayout, self.info, self.array)
 
     def make_array(self):
         self.info.refresh()
@@ -116,12 +115,10 @@ class MainWindow(QtWidgets.QMainWindow):
         )
 
     def makeSpectrograms(self):
-        tlim = float(self.ui.lowerTLim.text()), float(self.ui.upperTLim.text())
-        self.array.make_spectrograms(tlim=tlim, printer=self.ui.statusbar.showMessage)
-        self.array.plot_spectrograms(tlim=tlim)
+        self.info.refresh()
+        self.array.make_spectrograms(printer=self.ui.statusbar.showMessage)
+        self.array.plot_spectrograms()
         self.ui.statusbar.showMessage("Done")
-        # array.signals[idx].plot_spec(plots[pltidx], colormap=COLORMAP, tlim=tlim)
-        # plotting.spectrograms_array(self.ui.figLayout, self.info, self.array, tlim=tlim)
 
     def makeFfts(self):
         self.refresh()

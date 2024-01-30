@@ -49,7 +49,7 @@ class Signal:
         axis = ax.getAxis("left")
         axis.setWidth(40)
 
-    def spectrogram(self, tlim):
+    def spectrogram(self, tlim, nperseg, noverlap):
         if self.ierr != 0:
             return
         dt = np.mean(np.diff(self.t)).item()
@@ -58,13 +58,13 @@ class Signal:
             self.x[mask],
             fs=round(1.0 / dt),
             window="hamming",
-            nperseg=512,
-            noverlap=500,
+            nperseg=nperseg,
+            noverlap=noverlap,
             return_onesided=True,
         )
         self.spec_vals = 10 * np.log10(sxx / sxx.max())
         self.spec_times += self.t[mask][0]
-        print(f"Spgram {self.name} done")
+        print(f"Spgram {self.name} done - {tlim} - {nperseg} - {noverlap}")
 
     def plot_spec(self, ax, colormap, tlim):
         ax.clear()
@@ -75,7 +75,7 @@ class Signal:
             x0, y0 = self.spec_times[0], self.spec_freqs[0]
             w = self.spec_times[-1] - x0
             h = self.spec_freqs[-1] - y0
-            print(x0, y0, w, h)
+            # print(x0, y0, w, h)
             img = pg.ImageItem(
                 image=self.spec_vals.T, levels=(-40, 0), rect=[x0, y0, w, h]
             )

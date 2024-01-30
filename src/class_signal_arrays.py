@@ -5,7 +5,7 @@ from auxfiles.signal_names import LAYOUT_SIZE
 
 from .class_signals import Signal
 from .qt_workers import Worker
-from .window_info import WindowInfo
+from .class_window_info import WindowInfo
 from .utils import PEN_BLACK, COLORMAP
 
 
@@ -55,26 +55,29 @@ class SignalArray:
                 self.ax[(i, j)].getAxis("bottom").setHeight(20)
                 self.ax[(i, j)].getAxis("top").setHeight(0)
 
-    def make_spectrograms(self, tlim, printer=print):
+    def make_spectrograms(self, printer=print):
         workers = {}
         for signal, pltidx in zip(self.signals.values(), self.ax):
             workers[pltidx] = Worker(
                 signal.spectrogram,
-                tlim=tlim,
+                tlim=self.info.tlim,
+                nperseg=self.info.nperseg,
+                noverlap=self.info.noverlap,
             )
             self.threadpool.start(workers[pltidx])
         self.threadpool.waitForDone()
 
-    def plot_spectrograms(self, tlim):
+    def plot_spectrograms(self):
         self.make_axes(self.signals, sharex=True, sharey=True)
         for sig_key, iax in zip(self.signals, self.ax):
-            self.signals[sig_key].plot_spec(self.ax[iax], COLORMAP, tlim)
+            self.signals[sig_key].plot_spec(self.ax[iax], COLORMAP, self.info.tlim)
 
-    def plot_spec_alone(self, name, tlim):
-        print(name)
+    def plot_spec_alone(self, name):
         self.make_axes({name: self.signals[name]})
-        self.signals[name].spectrogram(tlim)
-        self.signals[name].plot_spec(self.ax[(0, 0)], COLORMAP, tlim)
+        self.signals[name].spectrogram(
+            self.info.tlim, nperseg=self.info.nperseg, noverlap=self.info.noverlap
+        )
+        self.signals[name].plot_spec(self.ax[(0, 0)], COLORMAP, self.info.tlim)
 
     def plot_signals(self):
         self.make_axes(self.signals, sharex=True, sharey=False)

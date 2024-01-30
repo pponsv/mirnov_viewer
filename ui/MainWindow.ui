@@ -21,26 +21,40 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <widget class="GraphicsLayoutWidget" name="figLayout" native="true">
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4"/>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QWidget" name="topwidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>40</height>
+       </size>
+      </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="7">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="13">
-        <widget class="QPushButton" name="refreshButton">
+       <item row="0" column="8">
+        <widget class="QCheckBox" name="filterCheckbox">
          <property name="text">
-          <string>Refresh</string>
+          <string>Filter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="9">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;f&lt;span style=&quot; vertical-align:sub;&quot;&gt;min&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -48,13 +62,6 @@
         <widget class="QPushButton" name="lastShotButton">
          <property name="text">
           <string>Last shot</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="10">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Signals: </string>
          </property>
         </widget>
        </item>
@@ -67,7 +74,137 @@
           </size>
          </property>
          <property name="text">
-          <string>Descarga:</string>
+          <string>Shot:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="7">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="15">
+        <widget class="QLabel" name="signalsLabel">
+         <property name="text">
+          <string>Signals: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="12">
+        <widget class="QLineEdit" name="filterFMax">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>40</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>40</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="10">
+        <widget class="QLineEdit" name="filterFMin">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>40</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>40</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QCheckBox" name="downsampleBox">
+         <property name="text">
+          <string>Downsample:</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="14">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="shotNumberInput">
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>22</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="loadDataButton">
+         <property name="text">
+          <string>Load data</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="16">
+        <widget class="QComboBox" name="signalArraySelector">
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="18">
+        <widget class="QPushButton" name="refreshButton">
+         <property name="text">
+          <string>Refresh</string>
          </property>
         </widget>
        </item>
@@ -81,13 +218,13 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>80</width>
+           <width>50</width>
            <height>22</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>80</width>
+           <width>50</width>
            <height>22</height>
           </size>
          </property>
@@ -101,20 +238,13 @@
           <string>20</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
          <property name="placeholderText">
           <string>Factor</string>
          </property>
          <property name="clearButtonEnabled">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="loadDataButton">
-         <property name="text">
-          <string>Load data</string>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -131,92 +261,49 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="shotNumberInput">
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>16777215</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="5">
-        <widget class="QCheckBox" name="downsampleBox">
-         <property name="text">
-          <string>Downsample:</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="11">
-        <widget class="QComboBox" name="signalArraySelector">
-         <property name="editable">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="8">
-        <widget class="QPushButton" name="DAQButton">
+        <widget class="QLabel" name="label_9">
          <property name="text">
-          <string>Check DAQ</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;f&lt;span style=&quot; vertical-align:sub;&quot;&gt;max&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="9">
-        <spacer name="horizontalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="0" column="13">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[kHz]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
       </layout>
      </widget>
     </item>
     <item row="2" column="0">
      <widget class="QWidget" name="bottomwidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>60</height>
+       </size>
+      </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="1" column="1">
-        <widget class="QPushButton" name="fftButton">
+       <item row="1" column="6">
+        <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>FFT</string>
+          <string>t&lt;sub&gt;1&lt;/sub&gt;:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
        <item row="1" column="5">
-        <widget class="QLineEdit" name="upperTLim">
-         <property name="minimumSize">
-          <size>
-           <width>90</width>
-           <height>22</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>90</width>
-           <height>22</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>1250</string>
-         </property>
-         <property name="placeholderText">
-          <string>Upper limit [ms]</string>
-         </property>
-         <property name="clearButtonEnabled">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
         <widget class="QLineEdit" name="lowerTLim">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -226,91 +313,30 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>90</width>
+           <width>70</width>
            <height>22</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>90</width>
+           <width>70</width>
            <height>22</height>
           </size>
          </property>
          <property name="baseSize">
           <size>
-           <width>100</width>
+           <width>70</width>
            <height>22</height>
           </size>
          </property>
          <property name="text">
           <string>1050</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
          <property name="placeholderText">
           <string>Lower limit [ms]</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="11">
-        <widget class="QPushButton" name="seeAloneButton">
-         <property name="text">
-          <string>See alone</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="9">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Signal:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="10">
-        <widget class="QComboBox" name="coilDataRetrievalSelector"/>
-       </item>
-       <item row="1" column="3">
-        <widget class="QPushButton" name="spectrogramsButton">
-         <property name="text">
-          <string>Spectrograms</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="13">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="6">
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="14">
-        <widget class="QPushButton" name="saveButton">
-         <property name="text">
-          <string>Save figure</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="integrateDataButton">
-         <property name="text">
-          <string>Integrate</string>
          </property>
         </widget>
        </item>
@@ -327,22 +353,176 @@
          </property>
         </spacer>
        </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="integrateDataButton">
+         <property name="text">
+          <string>Integrate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>t&lt;sub&gt;0&lt;/sub&gt;:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="15">
+        <widget class="QPushButton" name="seeAloneButton">
+         <property name="text">
+          <string>See alone</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="12">
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="7">
+        <widget class="QLineEdit" name="upperTLim">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>70</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>1250</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="placeholderText">
+          <string>Upper limit [ms]</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="fftButton">
+         <property name="text">
+          <string>FFT</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="14">
+        <widget class="QComboBox" name="coilDataRetrievalSelector"/>
+       </item>
+       <item row="1" column="3">
+        <widget class="QPushButton" name="spectrogramsButton">
+         <property name="text">
+          <string>Spectrograms</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="16">
         <widget class="QPushButton" name="singleSpectrogramButton">
          <property name="text">
           <string>Spectrogram</string>
          </property>
         </widget>
        </item>
+       <item row="1" column="9">
+        <widget class="QLineEdit" name="spgramNperseg">
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>512</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="placeholderText">
+          <string>nperseg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="8">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>nperseg:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="11">
+        <widget class="QLineEdit" name="spgramNoverlap">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>500</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="placeholderText">
+          <string>noverlap</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="10">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>noverlap:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="13">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Signal:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
       </layout>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="GraphicsLayoutWidget" name="figLayout" native="true">
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_4"/>
      </widget>
     </item>
    </layout>
@@ -358,12 +538,24 @@
    </property>
    <widget class="QMenu" name="menuArchivo">
     <property name="title">
-     <string>Archivo</string>
+     <string>Actions</string>
     </property>
+    <addaction name="actionCheck_DAQ"/>
+    <addaction name="actionSave_figure"/>
    </widget>
    <addaction name="menuArchivo"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionSave_figure">
+   <property name="text">
+    <string>Save figure</string>
+   </property>
+  </action>
+  <action name="actionCheck_DAQ">
+   <property name="text">
+    <string>Check DAQ</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
