@@ -12,9 +12,11 @@ from .class_window_info import WindowInfo
 
 
 DOUBLE_VALIDATOR = QtGui.QRegularExpressionValidator(
-    "^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$"
+    QtCore.QRegularExpression("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$")
 )
-INT_VALIDATOR = QtGui.QRegularExpressionValidator("[1-9][0-9]*")
+INT_VALIDATOR = QtGui.QRegularExpressionValidator(
+    QtCore.QRegularExpression("[1-9][0-9]*")
+)
 
 
 class MainWindow(QtWidgets.QMainWindow):
