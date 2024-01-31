@@ -8,11 +8,11 @@ Instructions for linux
 
 #### QT
 
-This program uses the QT library.
-With ubuntu based distributions, you can install it via:
+This program uses the QT5 library, and the PyQt5 python bindings to it.
+In ubuntu based distributions, you can install it via:
 
 ```
-sudo apt install qt6-base-dev
+sudo apt install qt5-base-dev
 ```
 
 Older distributions do not provide this package.
@@ -22,19 +22,26 @@ In this case, there's a qt5 branch that should work without installing anything.
 git checkout qt5
 ```
 
-#### Python:
-
-Install the requirements with `pur`:
+It also requires libxcb-cursor0, that can be installed using:
 
 ```
-pip install pur
-pur -r requirements.txt
+sudo apt-get install libxcb-cursor0
+```
+
+#### Python:
+
+Install the requirements using the provided 'Makefile' and 'requirements.txt'.
+This creates a virtual environment in 'env/' and installs all required packages.
+
+```
+make configure
 ```
 
 #### TJII library
 
 The python package to access the TJII library needs to be compiled with gfortran.
-The easiest way is using the provided makefile:
+The easiest way is using the provided makefile.
+This is done automatically in the previous step, but can be repeated if needed using:
 
 ```
 make build

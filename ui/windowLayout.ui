@@ -331,7 +331,7 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="PlotWidget" name="graphwidget" native="true">
+     <widget class="GraphicsLayoutWidget" name="figLayout" native="true">
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
@@ -360,7 +360,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>PlotWidget</class>
+   <class>GraphicsLayoutWidget</class>
    <extends>QWidget</extends>
    <header>pyqtgraph</header>
    <container>1</container>

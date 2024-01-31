@@ -2,8 +2,9 @@
 __pycache__/
 dist/
 build/
-env_*/
+env/
 figs/
+src/ui/
 
 *.so
 run

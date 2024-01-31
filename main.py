@@ -1,13 +1,12 @@
-import PyQt5 as qt
-from pyqtgraph import PlotWidget, plot
+from PyQt5.QtWidgets import QApplication
 import sys  # We need sys so that we can pass argv to QApplication
-from main_window import MainWindow
+from src.main_window import MainWindow
 
 
 def main():
-    app = qt.QtWidgets.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     main = MainWindow()
-    main.show()
+    main.showMaximized()
     sys.exit(app.exec())
 
 
