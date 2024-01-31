@@ -65,6 +65,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.fftButton.clicked.connect(self.makeFfts)
         self.ui.integrateDataButton.clicked.connect(self.integrateData)
         self.ui.singleSpectrogramButton.clicked.connect(self.specAlone)
+        self.ui.checkDAQButton.clicked.connect(self.showDAQ)
 
         #   Menu bar
         self.ui.actionCheck_DAQ.triggered.connect(self.showDAQ)
