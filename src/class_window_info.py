@@ -1,9 +1,8 @@
-from .ui.ui_mainwindow import Ui_MainWindow
 from .utils import get_value_from_field
 
 
 class WindowInfo:
-    def __init__(self, UiClass: Ui_MainWindow):
+    def __init__(self, UiClass):
         self.ui = UiClass
         self.refresh()
 

@@ -1,5 +1,6 @@
 import os
-from PySide6 import QtGui, QtCore, QtWidgets
+from PyQt6 import QtGui, QtCore, QtWidgets
+from PyQt6.uic.load_ui import loadUiType
 
 from pyqtgraph.exporters import ImageExporter
 
@@ -7,14 +8,20 @@ from auxfiles.signal_names import SIGNAL_NAMES
 from .daq_window import DAQ_dialog
 from . import utils
 from . import class_signal_arrays
-from .ui.ui_mainwindow import Ui_MainWindow
+
+# from .ui.ui_mainwindow import Ui_MainWindow
 from .class_window_info import WindowInfo
 
 
 DOUBLE_VALIDATOR = QtGui.QRegularExpressionValidator(
-    "^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$"
+    QtCore.QRegularExpression("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$")
 )
-INT_VALIDATOR = QtGui.QRegularExpressionValidator("[1-9][0-9]*")
+INT_VALIDATOR = QtGui.QRegularExpressionValidator(
+    QtCore.QRegularExpression("[1-9][0-9]*")
+)
+
+uiMainWindowFile = "./ui/MainWindow.ui"  # Enter file here.
+Ui_MainWindow, QtBaseClass = loadUiType(uiMainWindowFile)
 
 
 class MainWindow(QtWidgets.QMainWindow):

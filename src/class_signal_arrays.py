@@ -1,4 +1,4 @@
-from PySide6 import QtCore
+from PyQt6 import QtCore
 import pyqtgraph as pg
 
 from auxfiles.signal_names import LAYOUT_SIZE

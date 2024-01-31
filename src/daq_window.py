@@ -1,7 +1,9 @@
-from PySide6 import QtGui, QtCore, QtWidgets
+from PyQt6 import QtGui, QtCore, QtWidgets
+from PyQt6.uic.load_ui import loadUiType
 
-from .ui.ui_listdialog import Ui_Dialog
 from lib import TJII_data_acquisition as da
+
+Ui_Dialog, QtBaseClass = loadUiType("ui/ListDialog.ui")
 
 
 class DAQ_dialog(QtWidgets.QDialog):
