@@ -16,7 +16,7 @@ class Worker(QtCore.QRunnable):
             self.signaler.result.emit(result)
         except Exception as e:
             self.signaler.error.emit((e,))
-            print("Errored", e)
+            print("Errored: ", e)
         finally:
             self.signaler.finished.emit()
 

@@ -1,16 +1,14 @@
+import os
 from PySide6 import QtGui, QtCore, QtWidgets
 
-from pyqtgraph import GraphicsLayoutWidget
 from pyqtgraph.exporters import ImageExporter
 
 from auxfiles.signal_names import SIGNAL_NAMES
 from .daq_window import DAQ_dialog
-from .qt_workers import Worker
 from . import utils
 from . import class_signal_arrays
 from .ui.ui_mainwindow import Ui_MainWindow
 from .class_window_info import WindowInfo
-import os
 
 
 DOUBLE_VALIDATOR = QtGui.QRegularExpressionValidator(
@@ -57,7 +55,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.shotNumberInput.returnPressed.connect(self.loadData)
         self.ui.refreshButton.clicked.connect(self.refresh_plots)
         self.ui.lastShotButton.clicked.connect(
-            lambda: utils.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
+            lambda: utils.getLastShot(
+                self.ui.shotNumberInput, self.ui.statusbar.showMessage
+            )
         )
         self.ui.loadDataButton.clicked.connect(self.loadData)
         self.ui.seeAloneButton.clicked.connect(self.seeAlone)
@@ -77,7 +77,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def populate_boxes(self):
         self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
-        utils.getLastShot(self.ui.shotNumberInput, self.ui.statusbar)
+        utils.getLastShot(self.ui.shotNumberInput, self.ui.statusbar.showMessage)
 
     def savefig(self):
         os.makedirs("./figs", exist_ok=True)

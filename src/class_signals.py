@@ -21,7 +21,6 @@ class Signal:
             self.dt = t[1] - t[0]
         else:
             print(f"{self.shot} {self.name} - Error {ierr}:")
-            # da.py_ertxt(ierr)
             self.t = [0]
             self.x = [0]
             self.dt = 1
@@ -36,15 +35,12 @@ class Signal:
         ax.setLabels(left=self.name)
         if self.ierr != 0:
             return
-        t = self.t
         if filt is True:
             x = self.filter(flim)
         else:
             x = self.x
-        if ds is True:
-            ax.plot(t[::dsFactor], x[::dsFactor], pen=pen)
-        else:
-            ax.plot(t, x, pen=pen)
+        skip = dsFactor if ds else 1
+        ax.plot(self.t[::skip], x[::skip], pen=pen)
 
     def plot_integrated(self, ax, ds, dsFactor, pen):
         ax.clear()
@@ -83,7 +79,6 @@ class Signal:
             x0, y0 = self.spec_times[0], self.spec_freqs[0]
             w = self.spec_times[-1] - x0
             h = self.spec_freqs[-1] - y0
-            # print(x0, y0, w, h)
             img = pg.ImageItem(
                 image=self.spec_vals.T, levels=(-40, 0), rect=[x0, y0, w, h]
             )

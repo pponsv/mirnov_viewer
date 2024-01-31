@@ -17,8 +17,6 @@ class WindowInfo:
         return not self.__eq__(other)
 
     def refresh(self):
-        old_info = self.__dict__.copy()  #   Necessary to be able to compare
-
         self.array = self.ui.signalArraySelector.currentText()
         self.shot = get_value_from_field(self.ui.shotNumberInput, int)
         self.downsampleFactor = get_value_from_field(self.ui.downsampleFactorBox, int)
