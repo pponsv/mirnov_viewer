@@ -1,6 +1,7 @@
 import numpy as np
 import pyqtgraph as pg
 
+from scipy.signal import buttord, butter, sosfilt
 from lib import TJII_data_acquisition as da
 
 
@@ -18,7 +19,33 @@ def getLastShot(lineedit, printer=print):
 
 
 def bandpass_filter_vec(vec, flim, dt=0.001):
-    if flim == (None, None):
+    if None in flim:
+        return vec
+    fnyq = 1 / (2 * dt)
+    try:
+        if flim[0] == 0:
+            ord, wn = buttord(
+                wp=flim[1], ws=1.1 * flim[1], gpass=3, gstop=20, fs=1 / dt
+            )
+            sos = butter(ord, wn, btype="lowpass", output="sos", fs=1 / dt)
+        elif np.isclose(flim[1], fnyq):
+            ord, wn = buttord(
+                wp=flim[0], ws=0.9 * flim[0], gpass=3, gstop=20, fs=1 / dt
+            )
+            sos = butter(ord, wn, btype="highpass", output="sos", fs=1 / dt)
+        else:
+            ord, wn = buttord(
+                wp=flim, ws=[0.9 * flim[0], 1.1 * flim[1]], gpass=3, gstop=20, fs=1 / dt
+            )
+            sos = butter(ord, wn, btype="bandpass", output="sos", fs=1 / dt)
+    except:
+        print("Butterworth filter error - using FFT filter")
+        return bandpass_filter_fft(vec, flim, dt)
+    return sosfilt(sos, vec)
+
+
+def bandpass_filter_fft(vec, flim, dt=0.001):
+    if None in flim:
         return vec
     ff = np.fft.fft(vec)
     fr = np.fft.fftfreq(len(vec), dt)
