@@ -52,6 +52,4 @@ class DAQ_dialog(QtWidgets.QDialog):
                 )
                 if daq_item[3] != 0:
                     self.ui.daqTableWidget.item(ridx, cidx).setBackground(CLEAR_RED)
-                    self.ui.daqTableWidget.sortByColumn(
-                        3, QtCore.Qt.SortOrder.DescendingOrder
-                    )
+        self.ui.daqTableWidget.sortByColumn(3, QtCore.Qt.SortOrder.DescendingOrder)
