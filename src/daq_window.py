@@ -3,6 +3,8 @@ from PySide6 import QtGui, QtCore, QtWidgets
 from .ui.ui_listdialog import Ui_Dialog
 from lib import TJII_data_acquisition as da
 
+CLEAR_RED = QtGui.QColor(255, 0, 0, 80)
+
 
 class DAQ_dialog(QtWidgets.QDialog):
     def __init__(self, shot, names):
@@ -10,35 +12,34 @@ class DAQ_dialog(QtWidgets.QDialog):
 
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
+
+        self.shot = shot
+        self.names = names
+
         self.ui.daqTableWidget.setColumnCount(4)
         self.ui.daqTableWidget.setHorizontalHeaderLabels(
             ["SHOT", "SIGNAL", "NDAT", "IERR"]
         )
+        self.ui.daqTableWidget.setSortingEnabled(True)
 
         self.ui.okButton.clicked.connect(self.close)
 
-        self.shot = shot
-        self.names = names
         self.show()
         self.get_info()
         self.disp_info()
-
-    def get_info_str(self):
-        self.daq_list = []
-        for name in self.names:
-            ndat, nvent, ierr = da.py_dimens(self.shot, name)
-
-            self.daq_list.append(f"{self.shot}\t{name}\t{ndat}\t{ierr}")
-        print(self.daq_list)
+        self.ui.daqTableWidget.setSelectionMode(
+            QtWidgets.QAbstractItemView.SelectionMode.NoSelection
+        )
+        self.ui.daqTableWidget.setEditTriggers(
+            QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers
+        )
+        self.ui.daqTableWidget.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
 
     def get_info(self):
         self.daq_list = []
         for name in self.names:
             ndat, nvent, ierr = da.py_dimens(self.shot, name)
             self.daq_list.append([self.shot, name, ndat, ierr])
-
-    # def disp_info_listwidget(self):
-    #     self.ui.daqListWidget.addItems(self.items)
 
     def disp_info(self):
         self.ui.daqTableWidget.setRowCount(len(self.names))
@@ -47,3 +48,6 @@ class DAQ_dialog(QtWidgets.QDialog):
                 self.ui.daqTableWidget.setItem(
                     ridx, cidx, QtWidgets.QTableWidgetItem(str(item))
                 )
+                if daq_item[3] != 0:
+                    self.ui.daqTableWidget.item(ridx, cidx).setBackground(CLEAR_RED)
+        self.ui.daqTableWidget.sortByColumn(3, QtCore.Qt.SortOrder.DescendingOrder)
