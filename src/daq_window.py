@@ -35,7 +35,7 @@ class DAQ_dialog(QtWidgets.QDialog):
         self.ui.daqTableWidget.setEditTriggers(
             QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers
         )
-        self.ui.daqTableWidget.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
+        self.ui.daqTableWidget.setFocusPolicy(QtCore.Qt.FocusPolicy.ClickFocus)
 
     def get_info(self):
         self.daq_list = []
