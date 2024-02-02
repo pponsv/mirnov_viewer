@@ -21,8 +21,8 @@ class Signal:
             self.dt = t[1] - t[0]
         else:
             print(f"{self.shot} {self.name} - Error {ierr}:")
-            self.t = [0]
-            self.x = [0]
+            self.t = np.array([0])
+            self.x = np.array([0])
             self.dt = 1
         self.ierr = ierr
         printer(f"{self.shot} {self.name} - Done")
@@ -44,7 +44,7 @@ class Signal:
 
     def plot_integrated(self, ax, ds, dsFactor, pen):
         ax.clear()
-        nx = cumulative_trapezoid(self.x, self.t, initial=0)
+        nx = cumulative_trapezoid(self.x - np.mean(self.x), self.t, initial=0)
         if ds is True:
             ax.plot(self.t[::dsFactor], nx[::dsFactor], pen=pen)
         else:
