@@ -29,7 +29,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         #   Threading
-        self.threadpool = QtCore.QThreadPool().globalInstance()
+        self.threadpool = QtCore.QThreadPool()
         self.threadpool.setMaxThreadCount(5)
 
         #   UI
