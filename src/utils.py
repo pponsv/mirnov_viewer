@@ -19,16 +19,16 @@ def getLastShot(lineedit, printer=print):
 
 
 def bandpass_filter_vec(vec, flim, dt=0.001):
-    if None in flim:
+    if flim == (None, None):
         return vec
     fnyq = 1 / (2 * dt)
     try:
-        if flim[0] == 0:
+        if (flim[0] == 0) or (flim[0] is None):
             ord, wn = buttord(
                 wp=flim[1], ws=1.1 * flim[1], gpass=3, gstop=20, fs=1 / dt
             )
             sos = butter(ord, wn, btype="lowpass", output="sos", fs=1 / dt)
-        elif np.isclose(flim[1], fnyq):
+        elif np.isclose(flim[1], fnyq) or (flim[1] is None):
             ord, wn = buttord(
                 wp=flim[0], ws=0.9 * flim[0], gpass=3, gstop=20, fs=1 / dt
             )
