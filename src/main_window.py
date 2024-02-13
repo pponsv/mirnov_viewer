@@ -1,8 +1,6 @@
 from PyQt6 import QtGui, QtCore, QtWidgets
 from PyQt6.uic.load_ui import loadUiType
 
-from pyqtgraph.exporters import ImageExporter
-
 from auxfiles.signal_names import SIGNAL_NAMES
 from .daq_window import DAQ_dialog
 from . import qt_workers
