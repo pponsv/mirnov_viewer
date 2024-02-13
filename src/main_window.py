@@ -6,6 +6,7 @@ from pyqtgraph.exporters import ImageExporter
 
 from auxfiles.signal_names import SIGNAL_NAMES
 from .daq_window import DAQ_dialog
+from . import qt_workers
 from . import utils
 from . import class_signal_arrays
 
@@ -27,15 +28,15 @@ Ui_MainWindow, QtBaseClass = loadUiType(uiMainWindowFile)
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
+        #   Threading
+        self.threadpool = QtCore.QThreadPool().globalInstance()
+        self.threadpool.setMaxThreadCount(5)
+
         #   UI
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.init_ui()
         self.populate_boxes()
-
-        #   Threading
-        self.threadpool = QtCore.QThreadPool()
-        self.threadpool.setMaxThreadCount(5)
 
         #   Window info
         self.info = WindowInfo(self.ui)
@@ -61,11 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Connections
         self.ui.shotNumberInput.returnPressed.connect(self.loadData)
         self.ui.refreshButton.clicked.connect(self.refresh_plots)
-        self.ui.lastShotButton.clicked.connect(
-            lambda: utils.getLastShot(
-                self.ui.shotNumberInput, self.ui.statusbar.showMessage
-            )
-        )
+        self.ui.lastShotButton.clicked.connect(self.get_last_shot)
         self.ui.loadDataButton.clicked.connect(self.loadData)
         self.ui.seeAloneButton.clicked.connect(self.seeAlone)
         self.ui.spectrogramsButton.clicked.connect(self.makeSpectrograms)
@@ -78,6 +75,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.actionCheck_DAQ.triggered.connect(self.showDAQ)
         self.ui.actionSave_figure.triggered.connect(self.savefig)
 
+    def get_last_shot(self):
+        def write_shot(info):
+            self.ui.shotNumberInput.setText(str(info[0]))
+
+        worker = qt_workers.Worker(utils.da.py_lastshot)
+        worker.signaler.result.connect(write_shot)
+        self.threadpool.start(worker, priority=0)
+
     def showDAQ(self):
         self.daq_dialog.close()
         self.info.refresh()
@@ -85,7 +90,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def populate_boxes(self):
         self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
-        utils.getLastShot(self.ui.shotNumberInput, self.ui.statusbar.showMessage)
+        self.get_last_shot()
 
     def savefig(self):
         os.makedirs("./figs", exist_ok=True)
