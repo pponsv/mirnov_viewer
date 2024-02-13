@@ -1,7 +1,5 @@
 from PySide6 import QtGui, QtCore, QtWidgets
 
-from pyqtgraph.exporters import ImageExporter
-
 from auxfiles.signal_names import SIGNAL_NAMES
 from .daq_window import DAQ_dialog
 from . import qt_workers
