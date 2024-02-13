@@ -1,8 +1,5 @@
-import os
 from PyQt5 import QtGui, QtCore, QtWidgets
 from PyQt5.uic import loadUiType
-
-from pyqtgraph.exporters import ImageExporter
 
 from auxfiles.signal_names import SIGNAL_NAMES
 from .daq_window import DAQ_dialog
@@ -93,10 +90,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.get_last_shot()
 
     def savefig(self):
-        os.makedirs("./figs", exist_ok=True)
-        exporter = ImageExporter(self.ui.figLayout.scene())
-        exporter.parameters()["width"] = 3000
-        exporter.export("figs/tmp.png")
+        utils.save_figure(self.ui.figLayout.scene(), self.info)
 
     def specAlone(self):
         self.info.refresh()
