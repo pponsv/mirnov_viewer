@@ -1,5 +1,7 @@
+import os
 import numpy as np
 import pyqtgraph as pg
+from pyqtgraph.exporters import ImageExporter
 
 from scipy.signal import buttord, butter, sosfilt
 from lib import TJII_data_acquisition as da
@@ -18,17 +20,25 @@ def getLastShot(lineedit, printer=print):
         printer("Error reading last shot: {ierr}")
 
 
+def save_figure(scene, info):
+    os.makedirs("./figs", exist_ok=True)
+    exporter = ImageExporter(scene)
+    exporter.parameters()["width"] = 3000
+    figname = f"figs/{info.shot}__{info.array}.png"
+    exporter.export(figname)
+
+
 def bandpass_filter_vec(vec, flim, dt=0.001):
     if flim == (None, None):
         return vec
     fnyq = 1 / (2 * dt)
     try:
-        if (flim[0] == 0) or (flim[0] is None):
+        if (flim[0] is None) or (flim[0] == 0):
             ord, wn = buttord(
                 wp=flim[1], ws=1.1 * flim[1], gpass=3, gstop=20, fs=1 / dt
             )
             sos = butter(ord, wn, btype="lowpass", output="sos", fs=1 / dt)
-        elif np.isclose(flim[1], fnyq) or (flim[1] is None):
+        elif (flim[1] is None) or (flim[1] >= fnyq):
             ord, wn = buttord(
                 wp=flim[0], ws=0.9 * flim[0], gpass=3, gstop=20, fs=1 / dt
             )
@@ -38,7 +48,8 @@ def bandpass_filter_vec(vec, flim, dt=0.001):
                 wp=flim, ws=[0.9 * flim[0], 1.1 * flim[1]], gpass=3, gstop=20, fs=1 / dt
             )
             sos = butter(ord, wn, btype="bandpass", output="sos", fs=1 / dt)
-    except:
+    except Exception as e:
+        print(e)
         print("Butterworth filter error - using FFT filter")
         return bandpass_filter_fft(vec, flim, dt)
     return sosfilt(sos, vec)

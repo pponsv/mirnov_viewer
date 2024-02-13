@@ -1,4 +1,3 @@
-import os
 from PyQt6 import QtGui, QtCore, QtWidgets
 from PyQt6.uic.load_ui import loadUiType
 
@@ -93,10 +92,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.get_last_shot()
 
     def savefig(self):
-        os.makedirs("./figs", exist_ok=True)
-        exporter = ImageExporter(self.ui.figLayout.scene())
-        exporter.parameters()["width"] = 3000
-        exporter.export("figs/tmp.png")
+        utils.save_figure(self.ui.figLayout.scene(), self.info)
 
     def specAlone(self):
         self.info.refresh()
