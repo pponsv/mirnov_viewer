@@ -1,8 +1,9 @@
 .PHONY : run build configure rebuild_ui clean remove_env deep_clean
 ACTIVATE_VENV = . ./env/bin/activate
+PYTHON = python3.
 
 run:
-	$(ACTIVATE_VENV); python3 main.py
+	$(ACTIVATE_VENV); $(PYTHON) main.py
 
 build: 
 	$(ACTIVATE_VENV); $(MAKE) -C ./lib/TJII_data_acquisition
@@ -13,7 +14,7 @@ rebuild_ui:
 	$(ACTIVATE_VENV); pyside6-uic ./ui/ListDialog.ui -o ./src/ui/ui_listdialog.py
 
 env: 
-	test -d env || python3 -m venv ./env
+	test -d env || $(PYTHON) -m venv ./env
 
 configure: 
 	$(MAKE) env
