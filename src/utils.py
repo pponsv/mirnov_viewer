@@ -16,7 +16,8 @@ def get_names(arr_text: str):
     if arr_text in SIGNAL_NAMES.keys():
         names = SIGNAL_NAMES[arr_text]
     else:
-        names = arr_text.strip("[] ").split(",")
+        names = arr_text.strip("[]").split(", ")
+    print("Names: ", names)
     return names
 
 
