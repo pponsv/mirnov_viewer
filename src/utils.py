@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.exporters import ImageExporter
+from auxfiles.signal_names import SIGNAL_NAMES
 
 from scipy.signal import buttord, butter, sosfilt
 from lib import TJII_data_acquisition as da
