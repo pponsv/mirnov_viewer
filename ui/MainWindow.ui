@@ -247,7 +247,7 @@
        <item row="0" column="16">
         <widget class="QComboBox" name="signalArraySelector">
          <property name="editable">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
        </item>

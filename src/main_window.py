@@ -78,7 +78,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def showDAQ(self):
         self.daq_dialog.close()
         self.info.refresh()
-        self.daq_dialog = DAQ_dialog(self.info.shot, SIGNAL_NAMES[self.info.array])
+        self.daq_dialog = DAQ_dialog(self.info.shot, utils.get_names(self.info.array))
 
     def populate_boxes(self):
         self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
@@ -97,13 +97,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def make_array(self):
         self.info.refresh()
+        names = utils.get_names(self.info.array)
         if hasattr(self, "array"):
             if self.info.shot == self.array.shot:
-                if SIGNAL_NAMES[self.info.array] == [sig for sig in self.array.signals]:
+                if names == [sig for sig in self.array.signals]:
                     return
         self.array = class_signal_arrays.SignalArray(
             shot=self.info.shot,
-            names=SIGNAL_NAMES[self.info.array],
+            names=names,
             fig=self.ui.figLayout,
             threadpool=self.threadpool,
             info=self.info,

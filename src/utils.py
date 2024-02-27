@@ -6,9 +6,18 @@ from pyqtgraph.exporters import ImageExporter
 from scipy.signal import buttord, butter, sosfilt
 from lib import TJII_data_acquisition as da
 
+from auxfiles.signal_names import SIGNAL_NAMES
 
 PEN_BLACK = pg.mkPen(color="#000000", width=1)
 COLORMAP = pg.colormap.get("CET-R4")
+
+
+def get_names(arr_text: str):
+    if arr_text in SIGNAL_NAMES.keys():
+        names = SIGNAL_NAMES[arr_text]
+    else:
+        names = arr_text.strip("[] ").split(",")
+    return names
 
 
 def getLastShot(lineedit, printer=print):
