@@ -55,7 +55,11 @@ def bandpass_filter_vec(vec, flim, dt=0.001):
             sos = butter(ord, wn, btype="highpass", output="sos", fs=1 / dt)
         else:
             ord, wn = buttord(
-                wp=flim, ws=[0.9 * flim[0], 1.1 * flim[1]], gpass=3, gstop=20, fs=1 / dt
+                wp=flim,
+                ws=[0.9 * flim[0], 1.1 * flim[1]],
+                gpass=3,
+                gstop=20,
+                fs=1 / dt,
             )
             sos = butter(ord, wn, btype="bandpass", output="sos", fs=1 / dt)
     except Exception as e:
