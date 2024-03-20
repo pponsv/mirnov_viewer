@@ -64,7 +64,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.checkDAQButton.clicked.connect(self.showDAQ)
 
         #   Menu bar
-        self.ui.actionCheck_DAQ.triggered.connect(self.showDAQ)
+        self.ui.actionCheck_DAQ.triggered.connect(self.showDAQ_mirnov)
         self.ui.actionSave_figure.triggered.connect(self.savefig)
 
     def get_last_shot(self):
@@ -78,7 +78,16 @@ class MainWindow(QtWidgets.QMainWindow):
     def showDAQ(self):
         self.daq_dialog.close()
         self.info.refresh()
-        self.daq_dialog = DAQ_dialog(self.info.shot, utils.get_names(self.info.array))
+        self.daq_dialog = DAQ_dialog(
+            self.info.shot, utils.get_names(self.info.array)
+        )
+
+    def showDAQ_mirnov(self):
+        self.daq_dialog.close()
+        self.info.refresh()
+        self.daq_dialog = DAQ_dialog(
+            self.info.shot, list(SIGNAL_NAMES["Mirnov - all"])
+        )
 
     def populate_boxes(self):
         self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
