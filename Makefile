@@ -1,9 +1,9 @@
 .PHONY : run build configure rebuild_ui clean remove_env deep_clean
 ACTIVATE_VENV = . ./env/bin/activate
-PYTHON = python3
+PYTHON = python3.12
 
 run:
-	$(ACTIVATE_VENV); $(PYTHON) main.py
+	$(ACTIVATE_VENV); python main.py
 
 build: 
 	$(ACTIVATE_VENV); $(MAKE) -C ./lib/TJII_data_acquisition

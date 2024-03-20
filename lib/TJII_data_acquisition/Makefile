@@ -1,15 +1,16 @@
-MAIN = ./src/tjii_data_acquisition.f90
-MODNAME = TJII_data_acquisition_f
 ACTIVATE_VENV = . ../../env/bin/activate
 
-all: $(MAIN)
-	$(ACTIVATE_VENV); python3 -m numpy.f2py -c --f90flags='-Wno-tabs -lRpcC' -L./lib/ -m $(MODNAME) $(MAIN) ./lib/libRpcC.a
+all: meson_configure meson_build
 
-pyc: $(MAIN)
-	$(ACTIVATE_VENV); python3 -m numpy.f2py -h tmp.pyf -m $(MODNAME) $(MAIN)
+meson_configure:
+	$(ACTIVATE_VENV); meson setup --wipe bld
+
+meson_build:
+	$(ACTIVATE_VENV); meson compile -C bld
+	cp bld/TJII*.so ./
 
 clean:
-	rm -f *.so
+	rm -rf *.so ./bld/
 
 test:
 	$(ACTIVATE_VENV); python3 test.py
