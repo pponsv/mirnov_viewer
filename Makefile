@@ -1,6 +1,6 @@
 .PHONY : run build configure rebuild_ui clean remove_env deep_clean
 ACTIVATE_VENV = . ./env/bin/activate
-PYTHON = python3.12
+PYTHON = python3.10
 
 run:
 	$(ACTIVATE_VENV); python main.py
@@ -30,3 +30,9 @@ remove_env:
 	rm -rf env/
 
 deep_clean: remove_env clean
+
+release_build:
+	$(MAKE) configure
+	$(ACTIVATE_VENV); pip install pyinstaller
+	$(ACTIVATE_VENV); pyinstaller dist/mirnov_viewer.spec --distpath ./bld/dist --workpath ./bld/build --clean
+	
