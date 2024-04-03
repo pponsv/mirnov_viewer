@@ -1,5 +1,11 @@
 High priority:
 
+☐ Add TJII_data_acquisition as a github submodule
 ☐ Choose on startup the library used to access the database
     ☐ Ping server?
     ☐ Choose manually?
+
+Medium priority:
+
+
+Low priority:
