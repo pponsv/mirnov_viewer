@@ -85,7 +85,9 @@ class Signal:
             ax.addItem(img)
             ax.setXRange(x0, x0 + w)
             ax.setYRange(y0, y0 + h)
-            cbar = ax.addColorBar(img, colorMap=colormap, values=(-40, 0), width=0.25)
+            cbar = ax.addColorBar(
+                img, colorMap=colormap, values=(-40, 0), width=0.25
+            )
             cbar.getAxis("right").setWidth(25)
 
     def filter(self, flim):
