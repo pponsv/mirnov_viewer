@@ -18,7 +18,8 @@ class Signal:
         if ierr == 0:
             self.t = t
             self.x = x
-            self.dt = t[1] - t[0]
+            # self.dt = t[1] - t[0]
+            self.dt = np.mean(np.diff(t)).item()
         else:
             print(f"{self.shot} {self.name} - Error {ierr}:")
             self.t = np.array([0])
