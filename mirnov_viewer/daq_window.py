@@ -1,7 +1,7 @@
-from PySide6 import QtGui, QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
-from .ui.ui_listdialog import Ui_Dialog
-from lib import TJII_data_acquisition as da
+from . import TJII_data_acquisition as da
+from .ui_listdialog import Ui_Dialog
 
 CLEAR_RED = QtGui.QColor(255, 0, 0, 80)
 

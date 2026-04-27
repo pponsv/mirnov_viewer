@@ -1,13 +1,10 @@
-from PySide6 import QtGui, QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
-from auxfiles.signal_names import SIGNAL_NAMES
-from .daq_window import DAQ_dialog
-from . import qt_workers
-from . import utils
-from . import class_signal_arrays
-from .ui.ui_mainwindow import Ui_MainWindow
+from . import class_signal_arrays, qt_workers, utils
 from .class_window_info import WindowInfo
-
+from .daq_window import DAQ_dialog
+from .signal_names import SIGNAL_NAMES
+from .ui_mainwindow import Ui_MainWindow
 
 DOUBLE_VALIDATOR = QtGui.QRegularExpressionValidator(
     QtCore.QRegularExpression("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$")
@@ -78,20 +75,16 @@ class MainWindow(QtWidgets.QMainWindow):
     def showDAQ(self):
         self.daq_dialog.close()
         self.info.refresh()
-        self.daq_dialog = DAQ_dialog(
-            self.info.shot, utils.get_names(self.info.array)
-        )
+        self.daq_dialog = DAQ_dialog(self.info.shot, utils.get_names(self.info.array))
 
     def showDAQ_mirnov(self):
         self.daq_dialog.close()
         self.info.refresh()
-        self.daq_dialog = DAQ_dialog(
-            self.info.shot, list(SIGNAL_NAMES["Mirnov - all"])
-        )
+        self.daq_dialog = DAQ_dialog(self.info.shot, list(SIGNAL_NAMES["Mirnov - all"]))
 
     def populate_boxes(self):
         self.ui.signalArraySelector.addItems(list(SIGNAL_NAMES.keys()))
-        self.get_last_shot()
+        # self.get_last_shot()
 
     def savefig(self):
         utils.save_figure(self.ui.figLayout.scene(), self.info)

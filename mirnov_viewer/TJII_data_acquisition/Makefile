@@ -2,6 +2,9 @@ ACTIVATE_VENV = . ../../env/bin/activate
 
 all: meson_configure meson_build
 
+reload: 
+	$(MAKE) -C src/ reload
+
 meson_configure:
 	$(ACTIVATE_VENV); meson setup --wipe bld
 

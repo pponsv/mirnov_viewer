@@ -1,0 +1,11 @@
+[build-system]
+requires = ["meson-python", "numpy"]
+build-backend = "mesonpy"
+
+[project]
+name = "mirnov_viewer"
+version = "0.1.0"
+dependencies = ["numpy", "pyqtgraph", "PySide6", "scipy"]
+
+[project.scripts]
+mirnov_viewer = "mirnov_viewer.main:main"

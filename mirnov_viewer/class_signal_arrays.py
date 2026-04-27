@@ -1,12 +1,11 @@
-from PySide6 import QtCore
 import pyqtgraph as pg
-
-from auxfiles.signal_names import LAYOUT_SIZE
+from PySide6 import QtCore
 
 from .class_signals import Signal
-from .qt_workers import Worker
 from .class_window_info import WindowInfo
-from .utils import PEN_BLACK, COLORMAP
+from .qt_workers import Worker
+from .signal_names import LAYOUT_SIZE
+from .utils import COLORMAP, PEN_BLACK
 
 
 class SignalArray:
