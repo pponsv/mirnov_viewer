@@ -5,7 +5,13 @@ build-backend = "mesonpy"
 [project]
 name = "mirnov_viewer"
 version = "0.1.0"
-dependencies = ["numpy", "pyqtgraph", "PySide6", "scipy"]
+dependencies = [
+    "numpy",
+    "pyqtgraph",
+    "PySide6",
+    "scipy",
+    "tjii_data_acquisition @ git+https://github.com/pponsv/TJII_data_acquisition",
+]
 
 [project.scripts]
 mirnov_viewer = "mirnov_viewer.main:main"

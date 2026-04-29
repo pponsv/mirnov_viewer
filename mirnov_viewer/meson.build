@@ -12,7 +12,5 @@ py.install_sources(
         'signal_names.py',
         'main.py',
     ],
-    subdir: 'mirnov_viewer',
+    subdir: meson.project_name(),
 )
-
-subdir('TJII_data_acquisition')

@@ -2,12 +2,11 @@ import os
 
 import numpy as np
 import pyqtgraph as pg
+import TJII_data_acquisition as da
 from pyqtgraph.exporters import ImageExporter
 from scipy.signal import butter, buttord, sosfilt
 
 from mirnov_viewer.signal_names import SIGNAL_NAMES
-
-from . import TJII_data_acquisition as da
 
 PEN_BLACK = pg.mkPen(color="#000000", width=1)
 COLORMAP = pg.colormap.get("CET-R4")

@@ -1,9 +1,9 @@
 import numpy as np
 import pyqtgraph as pg
+import TJII_data_acquisition as da
 from scipy.integrate import cumulative_trapezoid
 from scipy.signal import spectrogram
 
-from . import TJII_data_acquisition as da
 from .utils import COLORMAP, PEN_BLACK, bandpass_filter_vec
 
 
